@@ -37,5 +37,5 @@
 - ### Azure Data Lake Storage Gen2:
     - Will be the data lake in our project
 
-###Azure SQL database:
+### Azure SQL database:
     - This is used for our reporting platform for power BI. We could’ve used Azure Synapse Analytics, which is a good solution for large data warehouses due to its parallel processing architecture; but in our case an Azure SQL database would be enough, since we’re processing a small amount of data. Here’s how our architecture and all the required resources look like: 
