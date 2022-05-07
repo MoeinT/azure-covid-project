@@ -18,6 +18,7 @@ data "azurerm_client_config" "current" {
 }
 
 provider "azurerm" {
+  subscription_id = "1b7f4ea1-c952-4797-ab87-31c4b9078163"
   features {}
 }
 
