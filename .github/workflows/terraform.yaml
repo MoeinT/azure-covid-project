@@ -31,7 +31,9 @@ jobs:
         RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
         STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
         CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-      run: terraform init
+      run: |
+          az login
+          terraform init
     - name: Validating terraform..
       run: terraform validate
     - name: Checking the format..
