@@ -73,7 +73,7 @@ resource "azurerm_resource_group" "covid-reporting-rg" {
   name     = "covreprgmoein"
   location = "East Us"
 }
-
+#
 resource "github_actions_secret" "actions_secret" {
   for_each = {
     ARM_CLIENT_ID       = azuread_service_principal.gh_actions.application_id
