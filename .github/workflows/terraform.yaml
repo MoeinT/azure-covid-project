@@ -21,9 +21,7 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.1.9
-    - name: |
-            az account get-access-token
-            Terraform init
+    - name: Terraform init
       id: init
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -33,7 +31,9 @@ jobs:
         RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
         STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
         CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-      run: terraform init -var-file="secrets.tfvards"
+      run: |
+           az account get-access-token 
+           terraform init -var-file="secrets.tfvards"
     - name: Validating terraform..
       run: terraform validate
     - name: Checking the format..
