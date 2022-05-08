@@ -1,6 +1,6 @@
 name: 'Terraform'
 
-on: push
+on: [push, pull_request]
 
 env:
   TF_LOG: INFO
@@ -43,9 +43,10 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         ARM_MSSQL_LOGIN: ${{ secrets.ARM_MSSQL_LOGIN }}
         ARM_MSSQL_PASSWORD: ${{ secrets.ARM_MSSQL_PASSWORD }}
+      if: github.event_name == 'pull_request'
       run: terraform plan -var 'mssql_login=${{ secrets.ARM_MSSQL_LOGIN }}' -var 'mssql_password=${{ secrets.ARM_MSSQL_PASSWORD }}'
 
-    #Only gets deployed when pull request closed and merged to main
+    #Only gets deployed when pull request get closed and merged to main
     - name: Terraform apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env: 
