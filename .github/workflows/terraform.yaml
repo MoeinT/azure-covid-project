@@ -29,7 +29,6 @@ jobs:
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
-      #Azure AD Authentication is enabled
       run: terraform init -backend-config="access_key=$ARM_ACCESS_KEY"
     - name: Validating terraform..
       run: terraform validate
