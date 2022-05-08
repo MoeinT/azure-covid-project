@@ -57,4 +57,4 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         ARM_MSSQL_LOGIN: ${{ secrets.ARM_MSSQL_LOGIN }}
         ARM_MSSQL_PASSWORD: ${{ secrets.ARM_MSSQL_PASSWORD }}
-      run: terraform apply -var 'mssql_login=ARM_MSSQL_LOGIN' -var 'mssql_password=ARM_MSSQL_PASSWORD'
+      run: terraform apply -auto-approve -var 'mssql_login=ARM_MSSQL_LOGIN' -var 'mssql_password=ARM_MSSQL_PASSWORD'
