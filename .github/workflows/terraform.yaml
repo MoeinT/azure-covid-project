@@ -46,5 +46,5 @@ jobs:
         ARM_MSSQL_LOGIN: ${{ secrets.ARM_MSSQL_LOGIN }}
         ARM_MSSQL_PASSWORD: ${{ secrets.ARM_MSSQL_PASSWORD }}
       #if: github.event_name == 'pull_request'
-      run: terraform plan -var 'mssql_login=ARM_MSSQL_LOGIN' -var 'mssql_password=ARM_MSSQL_PASSWORD' -backend-config='access_key=$ARM_ACCESS_KEY'
+      run: terraform plan -backend-config='access_key=$ARM_ACCESS_KEY'
     
