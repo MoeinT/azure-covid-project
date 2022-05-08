@@ -10,9 +10,3 @@ variable "mssql_password" {
   sensitive   = true
 }
 
-variable "access_key" {
-  description = "Database administrator password"
-  type        = string
-  sensitive   = true
-}
-
