@@ -42,6 +42,7 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
       #if: github.event_name == 'pull_request'
-      run: terraform plan -var-file="secrets.tfvars"
+      run: terraform plan -backend-config="access_key=$ARM_ACCESS_KEY" -var-file="secrets.tfvars"
     
