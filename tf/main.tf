@@ -11,7 +11,7 @@ terraform {
     storage_account_name = "tfstate22sa"
     container_name       = "tfstate-container"
     key                  = "terraform.tfstate"
-    use_msi              = true
+    use_azuread_auth     = true
   }
 }
 
