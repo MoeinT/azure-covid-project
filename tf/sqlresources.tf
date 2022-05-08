@@ -20,4 +20,4 @@ resource "azurerm_mssql_firewall_rule" "firewall-sql-server" {
 resource "azurerm_mssql_database" "covid-db" {
   name      = "covid-dbmoein"
   server_id = azurerm_mssql_server.covid-srv.id
-} #
+}
