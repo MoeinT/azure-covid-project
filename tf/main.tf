@@ -46,4 +46,4 @@ resource "azurerm_storage_container" "tfstate" {
 resource "azurerm_resource_group" "covid-reporting-rg" {
   name     = "covreprgmoein"
   location = "East Us"
-}#
+} #
