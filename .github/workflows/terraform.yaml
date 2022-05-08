@@ -1,6 +1,6 @@
 name: 'Terraform'
 
-on: [push, pull_request]
+on: push
 
 env:
   TF_LOG: INFO
@@ -43,7 +43,7 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         ARM_MSSQL_LOGIN: ${{ secrets.ARM_MSSQL_LOGIN }}
         ARM_MSSQL_PASSWORD: ${{ secrets.ARM_MSSQL_PASSWORD }}
-      run: terraform plan -var 'mssql_login=ARM_MSSQL_LOGIN' -var 'mssql_password=ARM_MSSQL_PASSWORD'
+      run: terraform plan -var 'mssql_login=${{ secrets.ARM_MSSQL_LOGIN }}' -var 'mssql_password=${{ secrets.ARM_MSSQL_PASSWORD }}'
 
     #Only gets deployed when pull request closed and merged to main
     - name: Terraform apply
@@ -55,4 +55,4 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         ARM_MSSQL_LOGIN: ${{ secrets.ARM_MSSQL_LOGIN }}
         ARM_MSSQL_PASSWORD: ${{ secrets.ARM_MSSQL_PASSWORD }}
-      run: terraform apply -auto-approve -var 'mssql_login=ARM_MSSQL_LOGIN' -var 'mssql_password=ARM_MSSQL_PASSWORD'
+      run: terraform apply -auto-approve -var 'mssql_login=${{ secrets.ARM_MSSQL_LOGIN }}' -var 'mssql_password=${{ secrets.ARM_MSSQL_PASSWORD }}'
