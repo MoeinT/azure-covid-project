@@ -45,7 +45,7 @@ jobs:
         ARM_MSSQL_PASSWORD: ${{ secrets.ARM_MSSQL_PASSWORD }}
       run: terraform plan -var 'mssql_login=ARM_MSSQL_LOGIN' -var 'mssql_password=ARM_MSSQL_PASSWORD'
 
-    #Only gets deployed when merged to main
+    #Only gets deployed when pull request closed and merged to main
     - name: Terraform apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env: 
