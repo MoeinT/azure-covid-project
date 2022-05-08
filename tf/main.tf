@@ -11,7 +11,6 @@ terraform {
     storage_account_name = "tfstate22sa"
     container_name       = "tfstate-container"
     key                  = "terraform.tfstate"
-    use_azuread_auth     = true
   }
 }
 
@@ -28,11 +27,12 @@ resource "azurerm_resource_group" "tfstate" {
 }
 
 resource "azurerm_storage_account" "tfstate" {
-  name                     = "tfstate22sa"
-  resource_group_name      = azurerm_resource_group.tfstate.name
-  location                 = azurerm_resource_group.tfstate.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+  name                      = "tfstate22sa"
+  resource_group_name       = azurerm_resource_group.tfstate.name
+  location                  = azurerm_resource_group.tfstate.location
+  account_tier              = "Standard"
+  account_replication_type  = "LRS"
+  shared_access_key_enabled = true
 }
 
 resource "azurerm_storage_container" "tfstate" {
