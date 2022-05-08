@@ -1,6 +1,6 @@
 name: 'Terraform'
 
-on: push
+on: [push, pull_request]
 
 env:
   TF_LOG: INFO
@@ -28,8 +28,7 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-        ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
-      run: terraform init #-backend-config="access_key=$ARM_ACCESS_KEY"
+      run: terraform init
     - name: Validating terraform..
       run: terraform validate
     - name: Checking the format..
@@ -44,5 +43,18 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         ARM_MSSQL_LOGIN: ${{ secrets.ARM_MSSQL_LOGIN }}
         ARM_MSSQL_PASSWORD: ${{ secrets.ARM_MSSQL_PASSWORD }}
-      #if: github.event_name == 'pull_request'
-      run: terraform plan -var 'mssql_login=ARM_MSSQL_LOGIN'  -var 'mssql_password=ARM_MSSQL_PASSWORD'
+
+      if: github.event_name == 'pull_request'
+      run: terraform plan -var 'mssql_login=ARM_MSSQL_LOGIN' -var 'mssql_password=ARM_MSSQL_PASSWORD'
+
+
+    - name: Terraform apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      env: 
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_MSSQL_LOGIN: ${{ secrets.ARM_MSSQL_LOGIN }}
+        ARM_MSSQL_PASSWORD: ${{ secrets.ARM_MSSQL_PASSWORD }}
+      run: terraform apply -var 'mssql_login=ARM_MSSQL_LOGIN' -var 'mssql_password=ARM_MSSQL_PASSWORD'
