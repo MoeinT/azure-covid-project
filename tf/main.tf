@@ -42,6 +42,7 @@ resource "azurerm_storage_container" "tfstate" {
   container_access_type = "blob"
 }
 
+#Central Fr not available for this subscription
 resource "azurerm_resource_group" "covid-reporting-rg" {
   name     = "covreprgmoein"
   location = "East Us"

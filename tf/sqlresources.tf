@@ -21,4 +21,3 @@ resource "azurerm_mssql_database" "covid-db" {
   name      = "covid-dbmoein"
   server_id = azurerm_mssql_server.covid-srv.id
 }
-#
