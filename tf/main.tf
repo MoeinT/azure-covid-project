@@ -18,8 +18,10 @@ data "azurerm_client_config" "current" {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+  }
 }
+
 
 resource "azurerm_resource_group" "tfstate" {
   name     = "tfstate-rg"
