@@ -1,41 +1,81 @@
-# Azure Covid Project
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <ul>
+     <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
+     <li><a href="#scope">Scope</a></li>
+     <li>
+        <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
+         <ul>
+          <li><a href="#validating-IaC-with-terraform-using-github-action">Validating IaC with Terraform using Github action</a></li>
+          <li><a href="#deployment">Deployment</a></li>
+        </ul>
+    </li>
+         </ul>
+    <ul>
+     <li><a href="#contact">Contact</a></li>
+     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    </ul>
+  </ol>
+</details>
+
+
+## Azure Covid Reporting
 
 ## Scope 
 
-- The goal in this project is to create a data platform for reporting and predictions of Covid19 outbreaks: 
+The goal of my project is to create a data platform in Azure for reporting and predictions of Covid19 outbreaks. Here's the scope of the projec  
 
-- We will integrate and orchestrate our data pipelines using Azure Data Factory. 
+- We will integrate and orchestrate our data pipelines using Azure Data Factory
 
-- We will create a dashboard using Azure Power BI to visualize the trend of Covid and the effectiveness of the Corona Virus tests being carried out. 
+- We will create a dashboard using Azure Power BI to visualize the trend of Covid and the effectiveness of the Corona Virus tests being carried out
 
-- We will also monitor our data pipeline and create alerts when there’s failure in the pipeline. 
+- We will also monitor our data pipeline and create alerts when there’s failure in the pipeline
 
-## Cloud solution
+The first step in the project is to provision all the required resources on Azure. See below for a more detailed plan.
 
-- ### Data source
-    - European Center for Disease prevention and control - Data related to the European population from Eurostat
+## Infrastructure as code (IaC)
 
-- ### Data ingestion
-    - We’ll use the HTTP connector within Azure Data Factory to get the data from the European Center for Disease Prevention and Control website. We’ll keep the population file in an Azure blob storage and ingest from there. An Azure blob storage is another connector to Azure Data Factory. 
+Infrastructure as Code (IaC) is the management of infrastructure (networks, virtual machines, storages etc.) in a descriptive model using code. Using IaC we can avoid manual configuration of environments and enforce consistency by representing the desired state of their environments via code. [Terraform](https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code) is HashiCorp's infrastructure as code tool. It lets you define resources and infrastructure in human-readable, declarative configuration files, and manages your infrastructure's lifecycle.
 
-- ### Transformation 
+### Validating IaC with Terraform using Github action
+When we use IaC with Terraform (or any other language), the goal is to reliably deploy and manage infrastructure using software development practices. The goal of Terraform validation is to catch and resolve issues as early as possible in the development process before they find their way into production. Here in this repository, I've created all the resources for my project using Terraform, and added the following tests: 
 
-    - We’ll use Azure Data Factory to transform this data; we’ll use Data Flows within Azure Data Factory for our transformation of a few datasets.
+- **Syntax**
 
-      We’ll use HDinsight for another dataset, and Azure Databricks for another one. For the HDinsight and Databricks, ADF will mostly be an orchestration tool, rather than a transformation tool. 
+    There are two kinds of syntax errors, language syntax, such as forgetting to close a curly bracket, or logical errors, such as calling a resource that has not been provisioned yet. Terraform can catch this errors by running ```terraform validate```.
+- **Format**
 
-      All the transformed data will be stored into an Azure Data Lake Storage Gen2 for ML models. We’ll also push a subset of the Data into a SQL database, for later use in reporting. 
+    When there are multiple people working on IaC, it becomes important to rewrite your Terraform configuration files to a canonical format and style before deploying them in production. You can check this using ```terraform fmt -check -recursive```. 
+- **Planning**
 
-      All the above 3 transformation techniques will run on distributed infrastructure and are easily scalable. Data flow is a code-free tool for low- to medium-level transformations. Both HDinsight and Databricks will require you to write code in one of Spark supported languages, i.e., Python, Scala etc. For HDinsight, we can also write code using a sql-like language called Hive and also a scripting language called Pig. 
+    Before applying any changes to your infrastructure, Terraform can look at your configuration and generated a plan. It will tell you what resources are going to be destroyed and what resources are going to be generated. You can preview the changes to your infrastructure using the ```terraform plan``` command. Terraform plan is a crucial step in your terraform execution workflow. 
+    
+### Deployment 
+If all the above steps are successfuly run, then we're ready to deploy our infrastructure in production. We can do so by using the ```terraform apply``` command. [Here](https://github.com/MoeinT/azure-covid-project/blob/feat/terraform_actions/.github/workflows/terraform.yaml) you can see my Github workflow that would run all the necessary tests. Upon each change, a pull request needs to be created that would trigger the ```terraform plan``` command; if that runs successfully and the changes get merged to main, then the ```terraform apply``` command would be triggered and the changes get deployed in production. This is a standard procedure to fully manage your resources using terraform and validate your codes using Github actions. 
 
 
-## Storage solution
+## Contact
+Moein Torabi - moin.torabi@gmail.com 
 
-- ### Azure blob storage:
-    - It can be used for storing semi-structured data such as text in a json format, or unstructured data such as images, audio, and videos. Here we  use a blob storage container to store the population data. We’ll keep some of the config files from the Azure Data Factory as well as the scripts for our HDinsight transformation inside this blob storage.
+Find me on [LinkedIn](https://www.linkedin.com/in/moein-torabi-5339b288/)
 
-- ### Azure Data Lake Storage Gen2:
-    - Will be the data lake in our project
+Project Link: [Azure Covid Reporting](https://github.com/MoeinT/azure-covid-project)
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-- ### Azure SQL database:
-    - This is used for our reporting platform for power BI. We could’ve used Azure Synapse Analytics, which is a good solution for large data analytics due to its parallel processing architecture; but in our case an Azure SQL database would be enough, since we’re processing a small amount of data. Here’s how our architecture and all the required resources look like: 
+## Acknowledgments
+
+Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+
+* [Terraform documentation](https://www.terraform.io/docs)
+* [Get started with Terraform](https://learn.hashicorp.com/terraform)
+* [Terraform concepts explained](https://www.youtube.com/watch?v=l5k1ai_GBDE)
+* [Validating Terraform Code with GitHub Actions](https://www.youtube.com/watch?v=2Zwrtn-QPk0)
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/moein-torabi-5339b288/
