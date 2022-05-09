@@ -3,7 +3,6 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
       <ul>
         <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
         <li><a href="#scope">Scope</a></li>
@@ -19,7 +18,6 @@
         <li><a href="#contact">Contact</a></li>
         <li><a href="#acknowledgments">Acknowledgments</a></li>
       </ul>
-    </li>
   </ol>
 </details>
 
