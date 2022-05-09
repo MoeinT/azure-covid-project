@@ -28,9 +28,9 @@ When we use IaC with Terraform (or any other language), the goal is to reliably 
 - **Planning**
 
     Before applying any changes to your infrastructure, Terraform can look at your configuration and generated a plan. It will tell you what resources are going to be destroyed and what resources are going to be generated. You can preview the changes to your infrastructure using the ```terraform plan``` command. Terraform plan is a crucial step in your terraform execution workflow. 
-### Deployment 
     
-    If all the above steps are successfuly run, then we're ready to deploy our infrastructure in production. We can do so by using the ```terraform apply``` command. [Here](https://github.com/MoeinT/azure-covid-project/blob/feat/terraform_actions/.github/workflows/terraform.yaml) you can see my Github workflow that would run all the necessary tests. Upon each change, a pull request needs to be created that would trigger the ```terraform plan``` command; if that runs successfully and the changes get merged to main, then the ```terraform apply``` command would be triggered and the changes get deployed in production. This is a standard procedure to fully manage your resources using terraform and validate your codes using Github actions. 
+### Deployment 
+If all the above steps are successfuly run, then we're ready to deploy our infrastructure in production. We can do so by using the ```terraform apply``` command. [Here](https://github.com/MoeinT/azure-covid-project/blob/feat/terraform_actions/.github/workflows/terraform.yaml) you can see my Github workflow that would run all the necessary tests. Upon each change, a pull request needs to be created that would trigger the ```terraform plan``` command; if that runs successfully and the changes get merged to main, then the ```terraform apply``` command would be triggered and the changes get deployed in production. This is a standard procedure to fully manage your resources using terraform and validate your codes using Github actions. 
 
 
 # Contact
