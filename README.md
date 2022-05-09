@@ -5,7 +5,7 @@
   <ol>
     <li>
       <ul>
-        <a href="#azure-covid-reporting">Azure Covid Reporting</a>
+        <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
         <li><a href="#scope">Scope</a></li>
         <li>
           <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
