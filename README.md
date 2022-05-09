@@ -3,21 +3,21 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-      <ul>
-        <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
-        <li><a href="#scope">Scope</a></li>
-        <li>
-          <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
-            <ul>
-              <li><a href="#validating-IaC-with-terraform-using-github-action">Validating IaC with Terraform using Github action</a></li>
-              <li><a href="#deployment">Deployment</a></li>
-            </ul>
-        </li>
-      </ul>
-      <ul>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#acknowledgments">Acknowledgments</a></li>
-      </ul>
+    <ul>
+     <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
+     <li><a href="#scope">Scope</a></li>
+     <li>
+        <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
+         <ul>
+          <li><a href="#validating-IaC-with-terraform-using-github-action">Validating IaC with Terraform using Github action</a></li>
+          <li><a href="#deployment">Deployment</a></li>
+        </ul>
+    </li>
+         </ul>
+    <ul>
+     <li><a href="#contact">Contact</a></li>
+     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    </ul>
   </ol>
 </details>
 
