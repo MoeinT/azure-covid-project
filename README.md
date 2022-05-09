@@ -1,3 +1,4 @@
+[![LinkedIn][linkedin-shield]][linkedin-url]
 # Azure Covid Reporting
 
 ## Scope 
@@ -45,8 +46,13 @@ Project Link: [Azure Covid Reporting](https://github.com/MoeinT/azure-covid-proj
 
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
-* [Get started on Terraform](https://learn.hashicorp.com/terraform)
-* [Terraform concepts explained](https://www.youtube.com/watch?v=l5k1ai_GBDE)
 * [Terraform documentation](https://www.terraform.io/docs)
+* [Get started with Terraform](https://learn.hashicorp.com/terraform)
+* [Terraform concepts explained](https://www.youtube.com/watch?v=l5k1ai_GBDE)
 * [Validating Terraform Code with GitHub Actions](https://www.youtube.com/watch?v=2Zwrtn-QPk0)
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/moein-torabi-5339b288/
