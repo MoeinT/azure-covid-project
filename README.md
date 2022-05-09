@@ -37,10 +37,7 @@ If all the above steps are successfuly run, then we're ready to deploy our infra
 Moein Torabi - moin.torabi@gmail.com
 
 Project Link: [Azure Covid Reporting](https://github.com/MoeinT/azure-covid-project)
-
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 ## Acknowledgments
 
