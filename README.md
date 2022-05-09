@@ -18,4 +18,5 @@ Infrastructure as Code (IaC) is the management of infrastructure (networks, virt
 When we use IaC with Terraform (or any other language), the goal is to reliably deploy and manage infrastructure using software development practices. The goal of Terraform validation is to catch and resolve issues as early as possible in the development process before they find their way into production. Here in this repository, I've created all the resources for my project using Terraform, and added the following tests: 
 
 - **Syntax**
+
     There are two kinds of syntax errors, language syntax, such as forgetting to close a curly bracket, or logical errors, such as calling a resource that has not been provisioned yet. Terraform can catch this errors by running ```terraform validate```
