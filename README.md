@@ -4,8 +4,8 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#azure-covid-reporting">Azure Covid Reporting</a>
       <ul>
+        <a href="#azure-covid-reporting">Azure Covid Reporting</a>
         <li><a href="#scope">Scope</a></li>
         <li>
           <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
@@ -24,7 +24,7 @@
 </details>
 
 
-# Azure Covid Reporting
+## Azure Covid Reporting
 
 ## Scope 
 
