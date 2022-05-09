@@ -1,4 +1,25 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
+
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#azure-covid-reporting">About The Project</a>
+      <ul>
+        <li><a href="#scope">Built With</a></li>
+        <li>
+          <a href="#infrastructure-as-code (IaC)">Prerequisites</a>
+            <ul>
+              <li><a href="#validating-IaC-with-terraform-using-github-action">Built With</a></li>
+              <li><a href="#deployment">Built With</a></li>
+            </ul>
+        </li>
+      </ul>
+    </li>
+  </ol>
+</details>
+
+
 # Azure Covid Reporting
 
 ## Scope 
