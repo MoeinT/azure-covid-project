@@ -12,11 +12,11 @@ resource "azurerm_storage_account" "covid-reporting-sa" {
   account_replication_type = "LRS"
 }
 
-# resource "azurerm_storage_container" "blob-container-population" {
-#   name                  = "blobmoein"
-#   storage_account_name  = azurerm_storage_account.covid-reporting-sa.name
-#   container_access_type = "blob"
-# }
+resource "azurerm_storage_container" "blob-container-population" {
+  name                  = "blobmoein"
+  storage_account_name  = azurerm_storage_account.covid-reporting-sa.name
+  container_access_type = "blob"
+}
 
 #To use this sa for dlgen2, we need to configure a hierarchical namespace
 resource "azurerm_storage_account" "covid-reporting-sa-dl" {
