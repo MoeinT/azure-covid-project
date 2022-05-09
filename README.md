@@ -20,3 +20,6 @@ When we use IaC with Terraform (or any other language), the goal is to reliably 
 - **Syntax**
 
     There are two kinds of syntax errors, language syntax, such as forgetting to close a curly bracket, or logical errors, such as calling a resource that has not been provisioned yet. Terraform can catch this errors by running ```terraform validate```
+- **Format**
+
+    When there are multiple people working on IaC, it becomes important to rewrite your Terraform configuration files to a canonical format and style before deploying them in production. You can check this using ```terraform fmt -check -recursive```. 
