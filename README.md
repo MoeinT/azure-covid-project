@@ -4,16 +4,20 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#azure-covid-reporting">About The Project</a>
+      <a href="#azure-covid-reporting">Azure Covid Reporting</a>
       <ul>
-        <li><a href="#scope">Built With</a></li>
+        <li><a href="#scope">Scope</a></li>
         <li>
-          <a href="#infrastructure-as-code (IaC)">Prerequisites</a>
+          <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
             <ul>
-              <li><a href="#validating-IaC-with-terraform-using-github-action">Built With</a></li>
-              <li><a href="#deployment">Built With</a></li>
+              <li><a href="#validating-IaC-with-terraform-using-github-action">Validating IaC with Terraform using Github action</a></li>
+              <li><a href="#deployment">Deployment</a></li>
             </ul>
         </li>
+      </ul>
+      <ul>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#acknowledgments">Acknowledgments</a></li>
       </ul>
     </li>
   </ol>
@@ -55,7 +59,7 @@ When we use IaC with Terraform (or any other language), the goal is to reliably 
 If all the above steps are successfuly run, then we're ready to deploy our infrastructure in production. We can do so by using the ```terraform apply``` command. [Here](https://github.com/MoeinT/azure-covid-project/blob/feat/terraform_actions/.github/workflows/terraform.yaml) you can see my Github workflow that would run all the necessary tests. Upon each change, a pull request needs to be created that would trigger the ```terraform plan``` command; if that runs successfully and the changes get merged to main, then the ```terraform apply``` command would be triggered and the changes get deployed in production. This is a standard procedure to fully manage your resources using terraform and validate your codes using Github actions. 
 
 
-# Contact
+## Contact
 Moein Torabi - moin.torabi@gmail.com 
 
 Find me on [LinkedIn](https://www.linkedin.com/in/moein-torabi-5339b288/)
