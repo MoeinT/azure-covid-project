@@ -1,3 +1,4 @@
+#Source sa
 resource "azurerm_storage_account" "covid-reporting-sa" {
   name                     = "covrepsamoein"
   resource_group_name      = azurerm_resource_group.covid-reporting-rg.name
@@ -14,6 +15,7 @@ resource "azurerm_storage_container" "blob-container-population" {
 }
 
 #To use this sa for dlgen2, we need to configure a hierarchical namespace
+#Target sa
 resource "azurerm_storage_account" "covid-reporting-sa-dl" {
   name                     = "covrepsadlmoein"
   resource_group_name      = azurerm_resource_group.covid-reporting-rg.name
@@ -24,7 +26,7 @@ resource "azurerm_storage_account" "covid-reporting-sa-dl" {
 }
 
 #The container holding the population data (target .tsv )
-resource "azurerm_storage_data_lake_gen2_filesystem" "example" {
+resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-population" {
   name               = "population-moein-target"
   storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
 }
