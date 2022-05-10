@@ -11,7 +11,7 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "adf-link-sour
   connection_string = azurerm_storage_account.covid-reporting-sa.primary_connection_string
 }
 
-#Lind adf to the target ()
+#Lind adf to the target (dlg2)
 resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "adf-link-target" {
   name                = "ls_adls_covrepmoein"
   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
