@@ -44,7 +44,8 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-target" {
 
   azure_blob_fs_location {
     file_system = azurerm_storage_data_lake_gen2_filesystem.file-system-population.name
-    filename    = "population_by_age.tsv"
+    #path        = "population"
+    filename = "population_by_age.tsv"
   }
   first_row_as_header = true
   compression_level   = "Optimal"
@@ -58,76 +59,78 @@ resource "azurerm_data_factory_pipeline" "pl_ingest_population" {
   data_factory_id = azurerm_data_factory.covid-reporting-df.id
   concurrency     = 1
 
-  #   activities_json = <<JSON
-  # [
-  #     {
-  #         "name": "pl_ingest_pop_moein",
-  #         "properties": {
-  #             "activities": [
-  #                 {
-  #                     "name": "Copy Population Data",
-  #                     "type": "Copy",
-  #                     "dependsOn": [],
-  #                     "policy": {
-  #                         "timeout": "0.00:05:00",
-  #                         "retry": 0,
-  #                         "retryIntervalInSeconds": 30,
-  #                         "secureOutput": false,
-  #                         "secureInput": false
-  #                     },
-  #                     "userProperties": [],
-  #                     "typeProperties": {
-  #                         "source": {
-  #                             "type": "DelimitedTextSource",
-  #                             "storeSettings": {
-  #                                 "type": "AzureBlobStorageReadSettings",
-  #                                 "recursive": true,
-  #                                 "enablePartitionDiscovery": false
-  #                             },
-  #                             "formatSettings": {
-  #                                 "type": "DelimitedTextReadSettings"
-  #                             }
-  #                         },
-  #                         "sink": {
-  #                             "type": "DelimitedTextSink",
-  #                             "storeSettings": {
-  #                                 "type": "AzureBlobFSWriteSettings"
-  #                             },
-  #                             "formatSettings": {
-  #                                 "type": "DelimitedTextWriteSettings",
-  #                                 "quoteAllText": true,
-  #                                 "fileExtension": ".txt"
-  #                             }
-  #                         },
-  #                         "enableStaging": false,
-  #                         "translator": {
-  #                             "type": "TabularTranslator",
-  #                             "typeConversion": true,
-  #                             "typeConversionSettings": {
-  #                                 "allowDataTruncation": true,
-  #                                 "treatBooleanAsNumber": false
-  #                             }
-  #                         }
-  #                     },
-  #                     "inputs": [
-  #                         {
-  #                             "referenceName": "ds_population_moein_gz",
-  #                             "type": "DatasetReference"
-  #                         }
-  #                     ],
-  #                     "outputs": [
-  #                         {
-  #                             "referenceName": "ds_population_moein_tsv",
-  #                             "type": "DatasetReference"
-  #                         }
-  #                     ]
-  #                 }
-  #             ],
-  #             "annotations": [],
-  #             "lastPublishTime": "2022-05-11T15:45:58Z"
-  #         },
-  #         "type": "Microsoft.DataFactory/factories/pipelines"
-  #     }
-  # ]
-  #   JSON
+  activities_json = <<JSON
+[
+    {
+    "name": "pl_ingest_pop_moein",
+    "properties": {
+        "activities": [
+            {
+                "name": "Copy Population Data",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.00:05:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "DelimitedTextSource",
+                        "storeSettings": {
+                            "type": "AzureBlobStorageReadSettings",
+                            "recursive": true,
+                            "enablePartitionDiscovery": false
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextReadSettings"
+                        }
+                    },
+                    "sink": {
+                        "type": "DelimitedTextSink",
+                        "storeSettings": {
+                            "type": "AzureBlobFSWriteSettings"
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextWriteSettings",
+                            "quoteAllText": true,
+                            "fileExtension": ".txt"
+                        }
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "typeConversion": true,
+                        "typeConversionSettings": {
+                            "allowDataTruncation": true,
+                            "treatBooleanAsNumber": false
+                        }
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "ds_population_moein_gz",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "ds_population_moein_tsv",
+                        "type": "DatasetReference"
+                    }
+                ]
+            }
+        ],
+        "concurrency": 1,
+        "annotations": [],
+        "lastPublishTime": "2022-05-11T18:36:36Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}
+]
+  JSON
+
 }
