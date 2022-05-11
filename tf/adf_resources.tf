@@ -37,18 +37,17 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-source" {
 }
 
 #Create a dataset for the target
-# resource "azurerm_data_factory_dataset_delimited_text" "ds-target" {
-#   name                = "ds_population_moein_tsv"
-#   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
-#   linked_service_name = azurerm_data_factory_linked_service_data_lake_storage_gen2.adf-link-target.name
+resource "azurerm_data_factory_dataset_delimited_text" "ds-target" {
+  name                = "ds_population_moein_tsv"
+  data_factory_id     = azurerm_data_factory.covid-reporting-df.id
+  linked_service_name = azurerm_data_factory_linked_service_data_lake_storage_gen2.adf-link-target.name
 
-#   azure_blob_fs_location {
-#     file_system       = azurerm_storage_data_lake_gen2_filesystem.file-system-population.name
-#     # path              = 
-#     filename          = "population_by_age.tsv"
-#   }
-#   first_row_as_header = true
-#   # compression_codec   = "gzip"
-#   compression_level   = "Optimal"
-#   column_delimiter    = "\t"
-# }
+  azure_blob_fs_location {
+    file_system = azurerm_storage_data_lake_gen2_filesystem.file-system-population.name
+    filename    = "population_by_age.tsv"
+  }
+  first_row_as_header = true
+  compression_level   = "Optimal"
+  column_delimiter    = "\t"
+  row_delimiter       = "\n"
+}
