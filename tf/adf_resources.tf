@@ -15,7 +15,7 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "adf-link-sour
 resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "adf-link-target" {
   name                = "ls_adls_covrepmoein"
   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
-  url                 = "https://popdataterraform.dfs.core.windows.net"
+  url                 = "https://${azurerm_storage_account.covid-reporting-sa-dl.name}.dfs.core.windows.net"
   storage_account_key = azurerm_storage_account.covid-reporting-sa-dl.primary_access_key
 }
 
