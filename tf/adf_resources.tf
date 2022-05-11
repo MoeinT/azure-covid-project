@@ -51,3 +51,83 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-target" {
   column_delimiter    = "\t"
   row_delimiter       = "\n"
 }
+
+#Create a pipeline
+resource "azurerm_data_factory_pipeline" "pl_ingest_population" {
+  name            = "pl_ingest_pop_moein"
+  data_factory_id = azurerm_data_factory.covid-reporting-df.id
+
+  activities_json = <<JSON
+  [
+    {
+    "name": "pl_ingest_pop_moein",
+    "properties": {
+        "activities": [
+            {
+                "name": "Copy Population Data",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.00:05:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "DelimitedTextSource",
+                        "storeSettings": {
+                            "type": "AzureBlobStorageReadSettings",
+                            "recursive": true,
+                            "enablePartitionDiscovery": false
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextReadSettings"
+                        }
+                    },
+                    "sink": {
+                        "type": "DelimitedTextSink",
+                        "storeSettings": {
+                            "type": "AzureBlobFSWriteSettings"
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextWriteSettings",
+                            "quoteAllText": true,
+                            "fileExtension": ".txt"
+                        }
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "typeConversion": true,
+                        "typeConversionSettings": {
+                            "allowDataTruncation": true,
+                            "treatBooleanAsNumber": false
+                        }
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "ds_population_moein_gz",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "ds_population_moein_tsv",
+                        "type": "DatasetReference"
+                    }
+                ]
+            }
+        ],
+        "annotations": [],
+        "lastPublishTime": "2022-05-11T13:53:29Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}
+      
+  ]
+    JSON
+}
