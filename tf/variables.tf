@@ -9,4 +9,3 @@ variable "mssql_password" {
   type        = string
   sensitive   = true
 }
-
