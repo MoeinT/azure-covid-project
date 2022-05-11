@@ -33,7 +33,7 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-source" {
   compression_codec   = "gzip"
   compression_level   = "Optimal"
   column_delimiter    = "\t"
-  row_delimiter       = "\r\n"
+  row_delimiter       = "\r,\n, or \r\n"
 }
 
 #Create a dataset for the target
