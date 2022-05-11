@@ -9,7 +9,7 @@ resource "azurerm_storage_account" "covid-reporting-sa" {
 
 #The container holding the population data (source .tsv.gz)
 resource "azurerm_storage_container" "blob-container-population" {
-  name                  = "population-moein-source"
+  name                  = "populationmoeinsource"
   storage_account_name  = azurerm_storage_account.covid-reporting-sa.name
   container_access_type = "private"
 }
@@ -27,7 +27,7 @@ resource "azurerm_storage_account" "covid-reporting-sa-dl" {
 
 #The container holding the population data (target .tsv )
 resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-population" {
-  name               = "population-moein-target"
+  name               = "populationmoeintarget"
   storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
 }
 
