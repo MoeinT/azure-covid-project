@@ -66,9 +66,6 @@ Project Link: [Azure Covid Reporting](https://github.com/MoeinT/azure-covid-proj
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
 * [Terraform documentation](https://www.terraform.io/docs)
 * [Get started with Terraform](https://learn.hashicorp.com/terraform)
 * [Terraform concepts explained](https://www.youtube.com/watch?v=l5k1ai_GBDE)
