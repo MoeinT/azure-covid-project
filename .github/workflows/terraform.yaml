@@ -46,7 +46,7 @@ jobs:
       if: github.event_name == 'pull_request'
       run: terraform plan -var 'mssql_login=${{ secrets.ARM_MSSQL_LOGIN }}' -var 'mssql_password=${{ secrets.ARM_MSSQL_PASSWORD }}'
 
-    #Only gets deployed when pull request get closed and merged to main
+    # The infrastructure gets deployed only when the pr is closed and merged to main
     - name: Terraform apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env: 
