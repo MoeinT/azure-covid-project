@@ -62,63 +62,85 @@ resource "azurerm_data_factory_pipeline" "pl_ingest_population" {
   activities_json = <<JSON
   [
         {
-                    "name": "Copy Population Data",
-                    "type": "Copy",
-                    "dependsOn": [],
-                    "policy": {
-                        "timeout": "0.00:05:00",
-                        "retry": 0,
-                        "retryIntervalInSeconds": 30,
-                        "secureOutput": false,
-                        "secureInput": false
-                    },
-                    "userProperties": [],
-                    "typeProperties": {
-                        "source": {
-                            "type": "DelimitedTextSource",
-                            "storeSettings": {
-                                "type": "AzureBlobStorageReadSettings",
-                                "recursive": true,
-                                "enablePartitionDiscovery": false
-                            },
-                            "formatSettings": {
-                                "type": "DelimitedTextReadSettings"
-                            }
+                "name": "Copy Population Data",
+                "type": "Copy",
+                "dependsOn": [
+                    {
+                        "activity": "Check if file exists",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.00:05:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "DelimitedTextSource",
+                        "storeSettings": {
+                            "type": "AzureBlobStorageReadSettings",
+                            "recursive": true,
+                            "enablePartitionDiscovery": false
                         },
-                        "sink": {
-                            "type": "DelimitedTextSink",
-                            "storeSettings": {
-                                "type": "AzureBlobFSWriteSettings"
-                            },
-                            "formatSettings": {
-                                "type": "DelimitedTextWriteSettings",
-                                "quoteAllText": true,
-                                "fileExtension": ".txt"
-                            }
-                        },
-                        "enableStaging": false,
-                        "translator": {
-                            "type": "TabularTranslator",
-                            "typeConversion": true,
-                            "typeConversionSettings": {
-                                "allowDataTruncation": true,
-                                "treatBooleanAsNumber": false
-                            }
+                        "formatSettings": {
+                            "type": "DelimitedTextReadSettings"
                         }
                     },
-                    "inputs": [
-                        {
-                            "referenceName": "${azurerm_data_factory_dataset_delimited_text.ds-source.name}",
-                            "type": "DatasetReference"
+                    "sink": {
+                        "type": "DelimitedTextSink",
+                        "storeSettings": {
+                            "type": "AzureBlobFSWriteSettings"
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextWriteSettings",
+                            "quoteAllText": true,
+                            "fileExtension": ".txt"
                         }
-                    ],
-                    "outputs": [
-                        {
-                            "referenceName": "${azurerm_data_factory_dataset_delimited_text.ds-target.name}",
-                            "type": "DatasetReference"
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "typeConversion": true,
+                        "typeConversionSettings": {
+                            "allowDataTruncation": true,
+                            "treatBooleanAsNumber": false
                         }
-                    ]
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "${azurerm_data_factory_dataset_delimited_text.ds-source.name}",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "${azurerm_data_factory_dataset_delimited_text.ds-target.name}",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "Check if file exists",
+                "type": "Validation",
+                "dependsOn": [],
+                "userProperties": [],
+                "typeProperties": {
+                    "dataset": {
+                        "referenceName": "${azurerm_data_factory_dataset_delimited_text.ds-source.name}",
+                        "type": "DatasetReference"
+                    },
+                    "timeout": "1.00:00:00",
+                    "sleep": 10,
+                    "minimumSize": 1024
                 }
+            }
   ]
     JSON
 
