@@ -1,155 +1,158 @@
 [
-            {
-                "name": "Check if file exists",
-                "type": "Validation",
-                "dependsOn": [],
-                "userProperties": [],
-                "typeProperties": {
-                    "dataset": {
-                        "referenceName": "ds_population_moein_gz",
-                        "type": "DatasetReference"
-                    },
-                    "timeout": "1.00:00:00",
-                    "sleep": 10,
-                    "minimumSize": 1024
-                }
+    {
+        "name": "Check if file exists",
+        "type": "Validation",
+        "dependsOn": [],
+        "userProperties": [],
+        "typeProperties": {
+            "dataset": {
+                "referenceName": "ds_population_moein_gz",
+                "type": "DatasetReference"
             },
+            "timeout": "1.00:00:00",
+            "sleep": 10,
+            "minimumSize": 1024
+        }
+    },
+    {
+        "name": "Get File Metadata",
+        "type": "GetMetadata",
+        "dependsOn": [
             {
-                "name": "Get File Metadata",
-                "type": "GetMetadata",
-                "dependsOn": [
-                    {
-                        "activity": "Check if file exists",
-                        "dependencyConditions": [
-                            "Succeeded"
-                        ]
-                    }
-                ],
-                "policy": {
-                    "timeout": "7.00:00:00",
-                    "retry": 0,
-                    "retryIntervalInSeconds": 30,
-                    "secureOutput": false,
-                    "secureInput": false
-                },
-                "userProperties": [],
-                "typeProperties": {
-                    "dataset": {
-                        "referenceName": "ds_population_moein_gz",
-                        "type": "DatasetReference"
+                "activity": "Check if file exists",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "dataset": {
+                "referenceName": "ds_population_moein_gz",
+                "type": "DatasetReference"
+            },
+            "fieldList": [
+                "columnCount",
+                "size",
+                "exists"
+            ],
+            "storeSettings": {
+                "type": "AzureBlobStorageReadSettings",
+                "recursive": true,
+                "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+                "type": "DelimitedTextReadSettings"
+            }
+        }
+    },
+    {
+        "name": "If Column Count Matches",
+        "type": "IfCondition",
+        "dependsOn": [
+            {
+                "activity": "Get File Metadata",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "userProperties": [],
+        "typeProperties": {
+            "expression": {
+                "value": "@equals(activity('Get File Metadata').output.columnCount, 13)",
+                "type": "Expression"
+            },
+            "ifFalseActivities": [
+                {
+                    "name": "Send email on failure",
+                    "type": "WebActivity",
+                    "dependsOn": [],
+                    "policy": {
+                        "timeout": "7.00:00:00",
+                        "retry": 0,
+                        "retryIntervalInSeconds": 30,
+                        "secureOutput": false,
+                        "secureInput": false
                     },
-                    "fieldList": [
-                        "columnCount",
-                        "size",
-                        "exists"
-                    ],
-                    "storeSettings": {
-                        "type": "AzureBlobStorageReadSettings",
-                        "recursive": true,
-                        "enablePartitionDiscovery": false
-                    },
-                    "formatSettings": {
-                        "type": "DelimitedTextReadSettings"
+                    "userProperties": [],
+                    "typeProperties": {
+                        "url": "https://prod-48.eastus.logic.azure.com:443/workflows/9c8b32b2d1f64269b1875eac417cb4be/triggers/some-http-trigger/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fsome-http-trigger%2Frun&sv=1.0&sig=eztiadWZqnquGmsMx8JkAOoe5SbaCHigcZAtnzv3x8w",
+                        "method": "POST",
+                        "body": {
+                            "value": "{\"EmailTo\": \"@{pipeline().parameters.EmailTo}\",\"Subject\": \"Reload for @{pipeline().Pipeline}-pipeline completed\",\"FactoryName\": \"@{pipeline().DataFactory}\",\"PipelineName\": \"@{pipeline().Pipeline}\",\"ActivityName\": \"@{pipeline().parameters.ActivityName}\",\"Message\": \"@{pipeline().parameters.Message}\"}\n",
+                            "type": "Expression"
+                        }
                     }
                 }
-            },
-            {
-                "name": "If Column Count Matches",
-                "type": "IfCondition",
-                "dependsOn": [
-                    {
-                        "activity": "Get File Metadata",
-                        "dependencyConditions": [
-                            "Succeeded"
-                        ]
-                    }
-                ],
-                "userProperties": [],
-                "typeProperties": {
-                    "expression": {
-                        "value": "@equals(activity('Get File Metadata').output.columnCount, 13)",
-                        "type": "Expression"
+            ],
+            "ifTrueActivities": [
+                {
+                    "name": "Copy Population Data",
+                    "type": "Copy",
+                    "dependsOn": [],
+                    "policy": {
+                        "timeout": "0.00:05:00",
+                        "retry": 0,
+                        "retryIntervalInSeconds": 30,
+                        "secureOutput": false,
+                        "secureInput": false
                     },
-                    "ifFalseActivities": [
-                        {
-                            "name": "Send Email",
-                            "type": "WebActivity",
-                            "dependsOn": [],
-                            "policy": {
-                                "timeout": "7.00:00:00",
-                                "retry": 0,
-                                "retryIntervalInSeconds": 30,
-                                "secureOutput": false,
-                                "secureInput": false
+                    "userProperties": [],
+                    "typeProperties": {
+                        "source": {
+                            "type": "DelimitedTextSource",
+                            "storeSettings": {
+                                "type": "AzureBlobStorageReadSettings",
+                                "recursive": true,
+                                "enablePartitionDiscovery": false
                             },
-                            "userProperties": [],
-                            "typeProperties": {
-                                "url": "moin.torabi@gmail.com",
-                                "method": "POST",
-                                "body": "The pipeline is not working! "
+                            "formatSettings": {
+                                "type": "DelimitedTextReadSettings"
+                            }
+                        },
+                        "sink": {
+                            "type": "DelimitedTextSink",
+                            "storeSettings": {
+                                "type": "AzureBlobFSWriteSettings"
+                            },
+                            "formatSettings": {
+                                "type": "DelimitedTextWriteSettings",
+                                "quoteAllText": true,
+                                "fileExtension": ".txt"
+                            }
+                        },
+                        "enableStaging": false,
+                        "translator": {
+                            "type": "TabularTranslator",
+                            "typeConversion": true,
+                            "typeConversionSettings": {
+                                "allowDataTruncation": true,
+                                "treatBooleanAsNumber": false
                             }
                         }
-                    ],
-                    "ifTrueActivities": [
+                    },
+                    "inputs": [
                         {
-                            "name": "Copy Population Data",
-                            "type": "Copy",
-                            "dependsOn": [],
-                            "policy": {
-                                "timeout": "0.00:05:00",
-                                "retry": 0,
-                                "retryIntervalInSeconds": 30,
-                                "secureOutput": false,
-                                "secureInput": false
-                            },
-                            "userProperties": [],
-                            "typeProperties": {
-                                "source": {
-                                    "type": "DelimitedTextSource",
-                                    "storeSettings": {
-                                        "type": "AzureBlobStorageReadSettings",
-                                        "recursive": true,
-                                        "enablePartitionDiscovery": false
-                                    },
-                                    "formatSettings": {
-                                        "type": "DelimitedTextReadSettings"
-                                    }
-                                },
-                                "sink": {
-                                    "type": "DelimitedTextSink",
-                                    "storeSettings": {
-                                        "type": "AzureBlobFSWriteSettings"
-                                    },
-                                    "formatSettings": {
-                                        "type": "DelimitedTextWriteSettings",
-                                        "quoteAllText": true,
-                                        "fileExtension": ".txt"
-                                    }
-                                },
-                                "enableStaging": false,
-                                "translator": {
-                                    "type": "TabularTranslator",
-                                    "typeConversion": true,
-                                    "typeConversionSettings": {
-                                        "allowDataTruncation": true,
-                                        "treatBooleanAsNumber": false
-                                    }
-                                }
-                            },
-                            "inputs": [
-                                {
-                                    "referenceName": "ds_population_moein_gz",
-                                    "type": "DatasetReference"
-                                }
-                            ],
-                            "outputs": [
-                                {
-                                    "referenceName": "ds_population_moein_tsv",
-                                    "type": "DatasetReference"
-                                }
-                            ]
+                            "referenceName": "ds_population_moein_gz",
+                            "type": "DatasetReference"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "referenceName": "ds_population_moein_tsv",
+                            "type": "DatasetReference"
                         }
                     ]
                 }
-            }
-        ]
+            ]
+        }
+    }
+]

@@ -13,4 +13,11 @@ resource "azurerm_data_factory_pipeline" "pl_ingest_population" {
   data_factory_id = azurerm_data_factory.covid-reporting-df.id
   concurrency     = 1
   activities_json = data.template_file.pipeline.template
+
+  parameters      = {
+    EmailTo       : "moin.torabi@gmail.com"
+    Message       : "There's an error regarding the number of columns!"
+    ActivityName  : "Copying Data"
+  }
+
 }
