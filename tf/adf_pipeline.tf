@@ -14,10 +14,10 @@ resource "azurerm_data_factory_pipeline" "pl_ingest_population" {
   concurrency     = 1
   activities_json = data.template_file.pipeline.template
 
-  parameters      = {
-    EmailTo       : "moin.torabi@gmail.com"
-    Message       : "There's an error regarding the number of columns!"
-    ActivityName  : "Copying Data"
+  parameters = {
+    EmailTo : "moin.torabi@gmail.com"
+    Message : "There's an error regarding the number of columns!"
+    ActivityName : "Copying Data"
   }
 
 }
