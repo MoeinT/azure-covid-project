@@ -44,6 +44,6 @@ resource "azurerm_storage_container" "tfstate" {
 
 #Central Fr not available for this subscription
 resource "azurerm_resource_group" "covid-reporting-rg" {
-  name     = "covreprgmoein"
+  name     = "covreprg${local.my_name}"
   location = "East Us"
 }

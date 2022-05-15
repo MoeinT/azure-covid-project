@@ -5,13 +5,8 @@ resource "azurerm_logic_app_workflow" "logicapp" {
   resource_group_name = azurerm_resource_group.covid-reporting-rg.name
 }
 
-
-locals {
-  arm_file_path = "templates/logic_app_template.json"
-}
-
 data "template_file" "workflow" {
-  template = file(local.arm_file_path)
+  template = file(local.arm_logicapp_template)
 }
 
 #Deploy the ARM template workflow
