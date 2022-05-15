@@ -1,0 +1,100 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_send_custom_email_name": {
+            "defaultValue": "send-custom-email",
+            "type": "string"
+        },
+        "connections_gmail_externalid": {
+            "defaultValue": "/subscriptions/1b7f4ea1-c952-4797-ab87-31c4b9078163/resourceGroups/covreprgmoein/providers/Microsoft.Web/connections/gmail",
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_send_custom_email_name')]",
+            "location": "eastus",
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "some-http-trigger": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "method": "POST",
+                                "schema": {
+                                    "properties": {
+                                        "ActivityName": {
+                                            "type": "string"
+                                        },
+                                        "EmailTo": {
+                                            "type": "string"
+                                        },
+                                        "FactoryName": {
+                                            "type": "string"
+                                        },
+                                        "Message": {
+                                            "type": "string"
+                                        },
+                                        "PipelineName": {
+                                            "type": "string"
+                                        },
+                                        "Subject": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Send_email_(V2)": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "Body": "<p>Data Factory Name: @{triggerBody()?['FactoryName']}<br>\nPipeline Name: @{triggerBody()?['PipelineName']}<br>\nActivity Name: @{triggerBody()?['ActivityName']}<br>\nMessage: @{triggerBody()?['Message']}</p>",
+                                    "Importance": "High",
+                                    "Subject": "@triggerBody()?['Subject']",
+                                    "To": "@triggerBody()?['EmailTo']"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['gmail']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/v2/Mail"
+                            }
+                        }
+                    }
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "gmail": {
+                                "connectionId": "[parameters('connections_gmail_externalid')]",
+                                "connectionName": "gmail",
+                                "id": "/subscriptions/1b7f4ea1-c952-4797-ab87-31c4b9078163/providers/Microsoft.Web/locations/eastus/managedApis/gmail"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
