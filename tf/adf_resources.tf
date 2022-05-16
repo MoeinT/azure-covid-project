@@ -19,6 +19,7 @@ resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "adf-link-
   storage_account_key = azurerm_storage_account.covid-reporting-sa-dl.primary_access_key
 }
 
+
 #Create a dataset for the source 
 resource "azurerm_data_factory_dataset_delimited_text" "ds-source" {
   name                = "ds_population_${local.my_name}_gz"
@@ -27,7 +28,7 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-source" {
 
   azure_blob_storage_location {
     container = azurerm_storage_container.blob-container-population.name
-    filename  = "population_by_age.tsv.gz"
+    filename  = local.source_blob_name
   }
   first_row_as_header = true
   compression_codec   = "gzip"
@@ -45,7 +46,7 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-target" {
   azure_blob_fs_location {
     file_system = azurerm_storage_data_lake_gen2_filesystem.file-system-population.name
     path        = "population"
-    filename    = "population_by_age.tsv"
+    filename    = local.target_blob_name
   }
   first_row_as_header = true
   compression_level   = "Optimal"
@@ -69,6 +70,23 @@ resource "azurerm_data_factory_pipeline" "pl_ingest_population" {
     EmailTo : "moin.torabi@gmail.com"
     Message : "There's an error regarding the number of columns!"
     ActivityName : "Copying Data"
+  }
+
+}
+
+#Create a trigger that would run the pipeline when a blob arrives in a container
+resource "azurerm_data_factory_trigger_blob_event" "example" {
+  name                  = "adf_trigger_blobevent_${local.my_name}"
+  data_factory_id       = azurerm_data_factory.covid-reporting-df.id
+  storage_account_id    = azurerm_storage_account.covid-reporting-sa.id
+  events                = ["Microsoft.Storage.BlobCreated"]
+  blob_path_begins_with = "/${azurerm_storage_container.blob-container-population.name}/"
+  blob_path_ends_with   = local.source_blob_name
+  ignore_empty_blobs    = true
+  activated             = true
+
+  pipeline {
+    name = azurerm_data_factory_pipeline.pl_ingest_population.name
   }
 
 }
