@@ -95,9 +95,31 @@ resource "azurerm_data_factory_trigger_blob_event" "example" {
 # Create the required resources for the Death and Cases dataset
 
 # Create a linked service to the HTTP URL
-resource "azurerm_data_factory_linked_service_web" "adf-link-source-covid" {
-  name                = "ls_http_ecdc_${local.my_name}"
-  data_factory_id     = azurerm_data_factory.covid-reporting-df.id
-  authentication_type = "Anonymous"
-  url                 = "https://opendata.ecdc.europa.eu"
+# resource "azurerm_data_factory_linked_service_web" "adf-link-source-covid" {
+#   name                = "ls_http_ecdc_${local.my_name}"
+#   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
+#   authentication_type = "Anonymous"
+#   url                 = "https://opendata.ecdc.europa.eu"
+# }
+
+resource "azurerm_data_factory_linked_custom_service" "adf-link-source-covid" {
+  name            = "ls_https_ecdc_${local.my_name}"
+  data_factory_id = azurerm_data_factory.covid-reporting-df.id
+  type            = "HTTP"
+
+  type_properties_json = <<JSON
+{
+    "name": "ls_https_ecdc_moein",
+    "properties": {
+        "annotations": [],
+        "type": "HttpServer",
+        "typeProperties": {
+            "url": "https://opendata.ecdc.europa.eu",
+            "enableServerCertificateValidation": true,
+            "authenticationType": "Anonymous"
+        }
+    }
+}
+JSON
+
 }
