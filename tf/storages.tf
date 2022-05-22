@@ -27,7 +27,7 @@ resource "azurerm_storage_account" "covid-reporting-sa-dl" {
 
 #The container holding the population data (target .tsv )
 resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-population" {
-  name               = "population${local.my_name}target"
+  name               = "raw${local.my_name}"
   storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
 }
 

@@ -90,3 +90,14 @@ resource "azurerm_data_factory_trigger_blob_event" "example" {
   }
 
 }
+
+
+# Create the required resources for the Death and Cases dataset
+
+# Create a linked service to the HTTP URL
+resource "azurerm_data_factory_linked_service_web" "adf-link-source-covid" {
+  name                = "ls_http_ecdc_${local.my_name}"
+  data_factory_id     = azurerm_data_factory.covid-reporting-df.id
+  authentication_type = "Anonymous"
+  url                 = "https://opendata.ecdc.europa.eu"
+}

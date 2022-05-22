@@ -6,6 +6,7 @@
     <ul>
      <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
      <li><a href="#scope">Scope</a></li>
+     <li><a href="#Data">Data</a></li>
      <li>
         <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
          <ul>
@@ -35,6 +36,23 @@ The goal of my project is to create a data platform in Azure for reporting and p
 - We will also monitor our data pipeline and create alerts when there’s failure in the pipeline
 
 The first step in the project is to provision all the required resources on Azure. See below for a more detailed plan.
+
+## Data
+
+### Population dataset
+
+Downloaded the data related to the European population from the Eurostat website
+
+### Covid19 dataset 
+
+Ingested the following data from [european center for disease prevention and control](https://www.ecdc.europa.eu/en/covid-19/data) into Azure Data Factory through an HTTP connector: 
+
+- New cases and deaths by country 
+- Hospital admissions and ICU cases
+- Testing Numbers
+- Country responses to Covid19
+
+## Pipeline and activities in Azure Data Factory
 
 ## Infrastructure as code (IaC)
 
