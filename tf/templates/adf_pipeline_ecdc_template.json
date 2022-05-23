@@ -1,6 +1,6 @@
 [
     {
-        "name": "Copy Cases and Death Data",
+        "name": "Copy data1",
         "type": "Copy",
         "dependsOn": [],
         "policy": {
@@ -45,14 +45,26 @@
         },
         "inputs": [
             {
-                "referenceName": "ds_cases_death_raw_csv_http_moein",
-                "type": "DatasetReference"
+                "referenceName": "ds_ecdc_raw_csv_http_moein",
+                "type": "DatasetReference",
+                "parameters": {
+                    "relativeURL": {
+                        "value": "@pipeline().parameters.sourceRelativeURL",
+                        "type": "Expression"
+                    }
+                }
             }
         ],
         "outputs": [
             {
-                "referenceName": "ds_cases_death_raw_csv_http_dlmoein",
-                "type": "DatasetReference"
+                "referenceName": "ds_ecdc_raw_csv_http_dlmoein",
+                "type": "DatasetReference",
+                "parameters": {
+                    "fileName": {
+                        "value": "@pipeline().parameters.sinkFileName",
+                        "type": "Expression"
+                    }
+                }
             }
         ]
     }
