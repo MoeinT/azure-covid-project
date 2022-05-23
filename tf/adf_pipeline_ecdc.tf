@@ -81,3 +81,4 @@ resource "azurerm_data_factory_pipeline" "pl_ingest_cases_death" {
 
   activities_json = data.template_file.pipelines-ecdc.template
 }
+
