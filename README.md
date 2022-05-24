@@ -25,6 +25,10 @@
 
 ## Azure Covid Reporting
 
+## Trying the new math operation
+
+if $y = s^3/3$, then the differential of $y$ $(dy)$ equals what?
+
 ## Scope 
 
 The goal of my project is to create a data platform in Azure for reporting and predictions of Covid19 outbreaks. Here's the scope of the projec  
