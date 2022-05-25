@@ -5,5 +5,5 @@ locals {
   arm_pipeline_ecdc_template       = "templates/adf_pipeline_ecdc_template.json"
   source_blob_name                 = "population_by_age.tsv.gz"
   target_blob_name                 = "population_by_age.tsv"
-  base_url_ecdc                    = "https://opendata.ecdc.europa.eu"
+  config_filename                  = "ecdc_file_list.json"
 }

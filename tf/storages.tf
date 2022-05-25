@@ -7,7 +7,7 @@ resource "azurerm_storage_account" "covid-reporting-sa" {
   account_replication_type = "LRS"
 }
 
-#The container holding the population data (source .tsv.gz)
+#Container holding the population data (source .tsv.gz)
 resource "azurerm_storage_container" "blob-container-population" {
   name                  = "population${local.my_name}source"
   storage_account_name  = azurerm_storage_account.covid-reporting-sa.name

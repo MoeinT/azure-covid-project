@@ -1,7 +1,7 @@
 [
     {
-        "name": "Copy ECDC Data",
-        "type": "Copy",
+        "name": "Lookup ECDC File List",
+        "type": "Lookup",
         "dependsOn": [],
         "policy": {
             "timeout": "7.00:00:00",
@@ -13,59 +13,115 @@
         "userProperties": [],
         "typeProperties": {
             "source": {
-                "type": "DelimitedTextSource",
+                "type": "JsonSource",
                 "storeSettings": {
-                    "type": "HttpReadSettings",
-                    "requestMethod": "GET"
+                    "type": "AzureBlobStorageReadSettings",
+                    "recursive": true,
+                    "enablePartitionDiscovery": false
                 },
                 "formatSettings": {
-                    "type": "DelimitedTextReadSettings"
+                    "type": "JsonReadSettings"
                 }
             },
-            "sink": {
-                "type": "DelimitedTextSink",
-                "storeSettings": {
-                    "type": "AzureBlobFSWriteSettings"
-                },
-                "formatSettings": {
-                    "type": "DelimitedTextWriteSettings",
-                    "quoteAllText": true,
-                    "fileExtension": ".txt"
-                }
+            "dataset": {
+                "referenceName": "ds_ecdc_filelist_moein",
+                "type": "DatasetReference"
             },
-            "enableStaging": false,
-            "translator": {
-                "type": "TabularTranslator",
-                "typeConversion": true,
-                "typeConversionSettings": {
-                    "allowDataTruncation": true,
-                    "treatBooleanAsNumber": false
-                }
-            }
-        },
-        "inputs": [
+            "firstRowOnly": false
+        }
+    },
+    {
+        "name": "Execute Copy For Every Record",
+        "type": "ForEach",
+        "dependsOn": [
             {
-                "referenceName": "ds_ecdc_raw_csv_http_moein",
-                "type": "DatasetReference",
-                "parameters": {
-                    "relativeURL": {
-                        "value": "@pipeline().parameters.sourceRelativeURL",
-                        "type": "Expression"
-                    }
-                }
+                "activity": "Lookup ECDC File List",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
             }
         ],
-        "outputs": [
-            {
-                "referenceName": "ds_ecdc_raw_csv_http_dlmoein",
-                "type": "DatasetReference",
-                "parameters": {
-                    "fileName": {
-                        "value": "@pipeline().parameters.sinkFileName",
-                        "type": "Expression"
-                    }
+        "userProperties": [],
+        "typeProperties": {
+            "items": {
+                "value": "@activity('Lookup ECDC File List').output.value",
+                "type": "Expression"
+            },
+            "activities": [
+                {
+                    "name": "Copy ECDC Data",
+                    "type": "Copy",
+                    "dependsOn": [],
+                    "policy": {
+                        "timeout": "7.00:00:00",
+                        "retry": 0,
+                        "retryIntervalInSeconds": 30,
+                        "secureOutput": false,
+                        "secureInput": false
+                    },
+                    "userProperties": [],
+                    "typeProperties": {
+                        "source": {
+                            "type": "DelimitedTextSource",
+                            "storeSettings": {
+                                "type": "HttpReadSettings",
+                                "requestMethod": "GET"
+                            },
+                            "formatSettings": {
+                                "type": "DelimitedTextReadSettings"
+                            }
+                        },
+                        "sink": {
+                            "type": "DelimitedTextSink",
+                            "storeSettings": {
+                                "type": "AzureBlobFSWriteSettings"
+                            },
+                            "formatSettings": {
+                                "type": "DelimitedTextWriteSettings",
+                                "quoteAllText": true,
+                                "fileExtension": ".txt"
+                            }
+                        },
+                        "enableStaging": false,
+                        "translator": {
+                            "type": "TabularTranslator",
+                            "typeConversion": true,
+                            "typeConversionSettings": {
+                                "allowDataTruncation": true,
+                                "treatBooleanAsNumber": false
+                            }
+                        }
+                    },
+                    "inputs": [
+                        {
+                            "referenceName": "ds_ecdc_raw_csv_http_moein",
+                            "type": "DatasetReference",
+                            "parameters": {
+                                "baseURL": {
+                                    "value": "@item().sourceBaseURL",
+                                    "type": "Expression"
+                                },
+                                "relativeURL": {
+                                    "value": "@item().sourceRelativeURL",
+                                    "type": "Expression"
+                                }
+                            }
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "referenceName": "ds_ecdc_raw_csv_http_dlmoein",
+                            "type": "DatasetReference",
+                            "parameters": {
+                                "fileName": {
+                                    "value": "@item().sinkFileName",
+                                    "type": "Expression"
+                                }
+                            }
+                        }
+                    ]
                 }
-            }
-        ]
+            ]
+        }
     }
 ]
