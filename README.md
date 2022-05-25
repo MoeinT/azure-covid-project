@@ -7,7 +7,7 @@
      <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
      <li><a href="#scope">Scope</a></li>
      <li><a href="#Data">Data</a></li>
-     <li><a href="#Pipeline and activities in Azure Data Factory">Pipeline and activities in Azure Data Factory</a></li>
+     <li><a href="#Pipeline-and-activities-in-Azure-Data-Factory">Pipeline and activities in Azure Data Factory</a></li>
      <li>
         <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
          <ul>
@@ -26,7 +26,7 @@
 
 ## Azure Covid Reporting
 
-## Scope 
+## Scope
 
 The goal of my project is to create a data platform in Azure for reporting and predictions of Covid19 outbreaks. Here's the scope of the projec  
 
@@ -44,7 +44,7 @@ The first step in the project is to provision all the required resources on Azur
 
 Downloaded the data related to the European population from the Eurostat website
 
-### Covid19 dataset 
+### Covid19 dataset
 
 Ingested the following data from the [European Center for Disease Prevention and Control (ECDC)](https://www.ecdc.europa.eu/en/covid-19/data) into Azure Data Factory through an HTTP connector: 
 
@@ -55,7 +55,7 @@ Ingested the following data from the [European Center for Disease Prevention and
 
 ## Pipeline and activities in Azure Data Factory
 
-- **Data Ingestion —** Created a pipeline in Azure Data Factory that would automatically ingest data from the ECDC website on a schedule basis. Added a trigger that would run the pipeline once every week when the data gets updated on the website. All the required resources have been created, mananged and maintained using Infrastructure as Code with [Terraform](https://www.terraform.io/). See the sections below for more details. 
+- **Data Ingestion —** Created a pipeline in Azure Data Factory that would automatically ingest data from the ECDC website on a schedule basis. Added a trigger that would run the pipeline once every week when the data gets updated on the website. All the required resources have been created, mananged and maintained using Infrastructure as Code (IaC) with [Terraform](https://www.terraform.io/). See the sections below for more details on IaC.
 
 ## Infrastructure as code (IaC)
 
