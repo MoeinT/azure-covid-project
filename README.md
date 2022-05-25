@@ -1,5 +1,3 @@
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <details>
   <summary>Table of Contents</summary>
   <ol>
