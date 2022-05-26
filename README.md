@@ -80,8 +80,6 @@ If all the above steps are successfuly run, then we're ready to deploy our infra
 Moein Torabi - moin.torabi@gmail.com 
 
 Find me on [LinkedIn](https://www.linkedin.com/in/moein-torabi-5339b288/)
-
-Project Link: [Azure Covid Reporting](https://github.com/MoeinT/azure-covid-project)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Acknowledgments
