@@ -6,4 +6,8 @@ locals {
   source_blob_name                 = "population_by_age.tsv.gz"
   target_blob_name                 = "population_by_age.tsv"
   config_filename                  = "ecdc_file_list.json"
+  cases_death                      = "cases_deaths.csv"
+  country_response                 = "country_response.csv"
+  hospital_admissions              = "hospital_admissions.csv"
+  testing                          = "testing.csv"
 }
