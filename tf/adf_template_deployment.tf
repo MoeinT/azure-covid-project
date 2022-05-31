@@ -5,16 +5,11 @@ resource "azurerm_data_factory" "covid-reporting-df_template" {
   resource_group_name = azurerm_resource_group.covid-reporting-rg.name
 }
 
-data "template_file" "adf-template" {
-  template = file(local.arm_adf_template)
-}
-
-
 resource "azurerm_resource_group_template_deployment" "adf-template-deployment" {
   name                = "adf_template_${local.my_name}"
   depends_on          = [azurerm_data_factory.covid-reporting-df_template]
   resource_group_name = azurerm_resource_group.covid-reporting-rg.name
-  deployment_mode = "Incremental"
+  deployment_mode     = "Incremental"
 
   template_content = <<JSON
 {
