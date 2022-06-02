@@ -26,7 +26,7 @@
 
 ## Scope
 
-The goal of my project is to create a data platform in Azure for reporting and predictions of Covid19 outbreaks. Here's the scope of the projec  
+The goal of my project is to create a data platform in Azure for reporting and predictions of Covid19 outbreaks. Here's the scope of the project:
 
 - We will integrate and orchestrate our data pipelines using Azure Data Factory
 
