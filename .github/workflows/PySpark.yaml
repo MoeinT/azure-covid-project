@@ -49,3 +49,4 @@ jobs:
     - name: Testing with pytest
       run: |
         if [ -d tests ] || [ -d test ]; then poetry run python -m pytest; fi
+        
