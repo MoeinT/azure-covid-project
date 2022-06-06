@@ -26,13 +26,11 @@ def transform_hospitals(df):
     )
 
 
-def get_date(path_source):
-
-    return transform_hospitals(extract(path_source))
-
+def load(path_source, path_target):
+    df_hospitals_processed = transform_hospitals(extract(path_source))
+    #df_hospitals_processed.write.format("csv").options("header",True).save(path_target)
+    df_hospitals_processed.write.options("header","true").csv(path_target)
 
 if __name__ == "__main__":
-    df_hospitals_processed = get_date(
-        os.path.join("..", "data", "raw", "hospitals_admissions.csv")
-    )
-    print("Ran successfully!")
+    load(path_source=os.path.join("..", "data", "raw", "hospitals_admissions.csv"),
+         path_target=os.path.join("..", "data", "processed", "hospitals_admissions_processed.csv"))
