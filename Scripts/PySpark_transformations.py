@@ -69,7 +69,8 @@ def load_images_container(local_path, connection_string, con_name):
             print(f"Address '{local_path}' not found!")
 
     except Exception as ex:
-        print("Exception:\nThe file already exist in the blob storage container")
+        print(ex)
+        # print("Exception:\nThe file already exist in the blob storage container")
 
 
 if __name__ == "__main__":
