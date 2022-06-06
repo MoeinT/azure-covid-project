@@ -28,8 +28,8 @@ def transform_hospitals(df):
 
 def load(path_source, path_target):
     df_hospitals_processed = transform_hospitals(extract(path_source))
-    print(df_hospitals_processed.head())
-    df_hospitals_processed.write.format("csv").mode("overwrite").save(path_target)
+    print(f"Writing to: {path_target}..")
+    df_hospitals_processed.write.format("csv").save(path_target, mode="overwrite")
 
 
 if __name__ == "__main__":
