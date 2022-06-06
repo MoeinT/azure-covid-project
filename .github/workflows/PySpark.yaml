@@ -1,0 +1,51 @@
+name: 'PySpark'
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setting up Python 3.10...
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10.x
+
+    - name: Setting up poetry...
+      uses: abatilo/actions-poetry@v2.0.0
+
+    - name: Installing poetry...
+      run: poetry install
+
+    - name: Setting up Java...
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    
+    - name: Seeting up Spark...
+      uses: vemonet/setup-spark@v1
+      with:
+        spark-version: '3.2.1'
+        hadoop-version: '3.2'
+
+    - run: spark-submit --version
+
+    - name: Checking formatting..
+      run: poetry run black . --check --diff
+
+    - name: Checking import sorting
+      run: poetry run isort . --check --diff
+    
+  
+    - name: Running PySpark Code...
+      uses: jannekem/run-python-script-action@v1
+      with:
+        script: |
+          cd Scripts
+          poetry run python PySpark_transformations.py
+
+    - name: Testing with pytest
+      run: |
+        if [ -d tests ] || [ -d test ]; then poetry run python -m pytest; fi
