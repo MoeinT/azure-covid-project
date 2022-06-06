@@ -42,7 +42,7 @@ jobs:
     - name: Running PySpark Code...
       uses: jannekem/run-python-script-action@v1
       with:
-        script: |
+      run: |
           cd Scripts
           poetry run python PySpark_transformations.py
 
