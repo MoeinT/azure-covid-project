@@ -59,8 +59,10 @@ def load_images_container(local_path, connection_string, con_name):
             blob_client = blob_service_client.get_blob_client(
                 container=con_name, blob="hospitals_admissions.csv"
             )
-
-            blob_client.upload_blob(df_blob)
+            df_hospitals_processed.write.mode("overwrite").option(
+                "header", "true"
+            ).format("hospitals_admissions.csv").save(container_client)
+            # blob_client.upload_blob(df_blob)
 
             # with open(local_path, "rb") as data:
             #   blob_client.upload_blob(data)
