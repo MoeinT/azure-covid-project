@@ -71,21 +71,17 @@ def load_images_container(local_path, connection_string, con_name):
         print("Exception:\nThe file already exist in the blob storage container")
 
 
-
-
-
-
 if __name__ == "__main__":
 
     local_path = os.path.join("..", "data", "raw", "hospitals_admissions.csv")
-    path_target = os.path.join("..", "data", "processed", "hospitals_admissions_processed.csv")
-    conn_string = "DefaultEndpointsProtocol=https;AccountName=covrepsadlmoein;AccountKey=8lB7Lh0HQeHVJVGUhtOTHC1KqUVpb9w2wf4/qwycT6rSGmg7t98loQp8aa6pk6fewGYSpxDAdWbk+AStczvcCQ==;EndpointSuffix=core.windows.net"#os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+    path_target = os.path.join(
+        "..", "data", "processed", "hospitals_admissions_processed.csv"
+    )
+    conn_string = "DefaultEndpointsProtocol=https;AccountName=covrepsadlmoein;AccountKey=8lB7Lh0HQeHVJVGUhtOTHC1KqUVpb9w2wf4/qwycT6rSGmg7t98loQp8aa6pk6fewGYSpxDAdWbk+AStczvcCQ==;EndpointSuffix=core.windows.net"  # os.getenv("AZURE_STORAGE_CONNECTION_STRING")
     connection_name = "processedmoeinpython"
 
+    load(path_source=local_path, path_target=path_target)
 
-    load(
-        path_source=local_path,
-        path_target=path_target
+    load_images_container(
+        local_path=local_path, connection_string=conn_string, con_name=connection_name
     )
-
-    load_images_container(local_path = local_path, connection_string = conn_string, con_name = connection_name)
