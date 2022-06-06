@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     local_path = os.path.join("..", "data", "raw", "hospitals_admissions.csv")
     path_target = os.path.join(
-        "..", "data", "processed", "hospitals","hospitals_admissions_processed.csv"
+        "..", "data", "processed", "hospitals_admissions_processed.csv"
     )
     conn_string = "DefaultEndpointsProtocol=https;AccountName=covrepsadlmoein;AccountKey=8lB7Lh0HQeHVJVGUhtOTHC1KqUVpb9w2wf4/qwycT6rSGmg7t98loQp8aa6pk6fewGYSpxDAdWbk+AStczvcCQ==;EndpointSuffix=core.windows.net"  # os.getenv("AZURE_STORAGE_CONNECTION_STRING")
     connection_name = "processedmoeinpython"
