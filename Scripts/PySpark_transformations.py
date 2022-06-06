@@ -29,6 +29,7 @@ def transform_hospitals(df):
 def load(path_source, path_target):
     df_hospitals_processed = transform_hospitals(extract(path_source))
     print(f"Writing to: {path_target}..")
+    print(df_hospitals_processed.show(2))
     df_hospitals_processed.write.format("csv").save(path_target, mode="overwrite")
 
 
@@ -36,6 +37,6 @@ if __name__ == "__main__":
     load(
         path_source=os.path.join("..", "data", "raw", "hospitals_admissions.csv"),
         path_target=os.path.join(
-            "..", "data", "processed", "hospitals_admissions_processed.csv"
+            "data", "processed", "hospitals_admissions_processed.csv"
         ),
     )
