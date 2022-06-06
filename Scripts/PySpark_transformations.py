@@ -29,7 +29,8 @@ def transform_hospitals(df):
 
 def load(path_source, path_target):
     df_hospitals_processed = transform_hospitals(extract(path_source))
-    df_hospitals_processed.write.format("csv").save(path_target, mode="overwrite")
+    # df_hospitals_processed.coalesce(1).write.format("csv").save(path_target, mode="overwrite")
+    df_hospitals_processed.coalesce(1).write.option("header", "true").csv(path_target)
 
 
 def load_images_container(local_path, connection_string, con_name):
@@ -41,7 +42,11 @@ def load_images_container(local_path, connection_string, con_name):
     con_name -- The name of the blob storage container (default "processedmoeinpython")
     """
     df_hospitals_processed = transform_hospitals(extract(local_path))
-    df_blob = df_hospitals_processed.write.format("csv")
+    df_blob = (
+        df_hospitals_processed.coalesce(1)
+        .write.option("header", "true")
+        .csv("hospitals_admissions.csv")
+    )
 
     try:
         # Connect to the resource group
@@ -59,10 +64,8 @@ def load_images_container(local_path, connection_string, con_name):
             blob_client = blob_service_client.get_blob_client(
                 container=con_name, blob="hospitals_admissions.csv"
             )
-            df_hospitals_processed.write.mode("overwrite").option(
-                "header", "true"
-            ).format("hospitals_admissions.csv").save(container_client)
-            # blob_client.upload_blob(df_blob)
+
+            blob_client.upload_blob(df_blob)
 
             # with open(local_path, "rb") as data:
             #   blob_client.upload_blob(data)
