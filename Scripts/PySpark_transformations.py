@@ -57,7 +57,7 @@ def load_images_container(local_path, connection_string, con_name):
             print("\nUploading the file into Azure Storage Blob\n")
 
             blob_client = blob_service_client.get_blob_client(
-                container=con_name, blob="hospitals_admissions1.csv"
+                container=con_name, blob="hospitals_admissions.csv"
             )
 
             blob_client.upload_blob(df_blob)
