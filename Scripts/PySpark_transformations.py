@@ -65,7 +65,7 @@ def load_images_container(local_path, connection_string, con_name):
                 container=con_name, blob="hospitals_admissions.csv"
             )
 
-            blob_client.upload_blob(df_hospitals_processed)
+            blob_client.upload_blob(df_hospitals_processed, overwrite=True)
 
             # with open(local_path, "rb") as data:
             #   blob_client.upload_blob(data)
