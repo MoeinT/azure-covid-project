@@ -23,7 +23,7 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-cases-deaths" {
 
 #Create a dataset that points towards the lookup file
 resource "azurerm_data_factory_dataset_delimited_text" "ds-lookup" {
-  name                = "ds_country_lookup_${local.my_name}"
+  name                = "df_country_lookup_${local.my_name}"
   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
   linked_service_name = azurerm_data_factory_linked_service_data_lake_storage_gen2.adf-link-target.name
 
@@ -41,7 +41,7 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-lookup" {
 #Create a new dataset for the processed cases and deaths dataset
 
 resource "azurerm_data_factory_dataset_delimited_text" "ds-cases-deaths-processed" {
-  name                = "ds_processed_cases_deaths_${local.my_name}"
+  name                = "df_processed_cases_deaths_${local.my_name}"
   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
   linked_service_name = azurerm_data_factory_linked_service_data_lake_storage_gen2.adf-link-target.name
 

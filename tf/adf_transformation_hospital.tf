@@ -1,6 +1,6 @@
 #Create a dataset poitning towards the hospitals admissions raw data
 resource "azurerm_data_factory_dataset_delimited_text" "ds-hospitals-admissions" {
-  name                = "df_raw_hospital_admissions_${local.my_name}"
+  name                = "ds_raw_hospital_admissions_${local.my_name}"
   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
   linked_service_name = azurerm_data_factory_linked_service_data_lake_storage_gen2.adf-link-target.name
 
@@ -16,7 +16,7 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-hospitals-admissions"
 }
 
 resource "azurerm_data_factory_dataset_delimited_text" "ds-hospitals-admissions-processed" {
-  name                = "df_processed_hospital_admissions_${local.my_name}"
+  name                = "ds_processed_hospital_admissions_${local.my_name}"
   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
   linked_service_name = azurerm_data_factory_linked_service_data_lake_storage_gen2.adf-link-target.name
 
