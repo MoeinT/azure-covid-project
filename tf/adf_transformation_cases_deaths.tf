@@ -4,12 +4,6 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-lookup" {
   storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
 }
 
-#Create a container within the dlgen2 for the transformed data
-resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-processed" {
-  name               = "processed${local.my_name}"
-  storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
-}
-
 #Create a dataset poitning towards the cases and deaths data
 resource "azurerm_data_factory_dataset_delimited_text" "ds-cases-deaths" {
   name                = "df_raw_cases_deaths_${local.my_name}"

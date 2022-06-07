@@ -30,3 +30,15 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-population" {
   name               = "raw${local.my_name}"
   storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
 }
+
+#Create a container within the dlgen2 for the transformed data
+resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-processed" {
+  name               = "processed${local.my_name}"
+  storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
+}
+
+#Create a container within the dlgen2 for the transformed data from Python
+resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-processed-python" {
+  name               = "processed${local.my_name}python"
+  storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
+}

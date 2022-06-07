@@ -12,4 +12,5 @@ locals {
   testing                            = "testing.csv"
   lookup_file                        = "country_lookup.csv"
   arm_pipeline_dataflow_cases_deaths = "templates/adf_pipeline_transform_cases_deaths.json"
+  arm_pipeline_dataflow_hospitals    = "templates/adf_pipeline_transform_hospital.json"
 }
