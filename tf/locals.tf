@@ -11,6 +11,7 @@ locals {
   hospital_admissions                = "hospital_admissions.csv"
   testing                            = "testing.csv"
   lookup_file                        = "country_lookup.csv"
+  lookup_file_dim_date               = "dim_date.csv"
   arm_pipeline_dataflow_cases_deaths = "templates/adf_pipeline_transform_cases_deaths.json"
   arm_pipeline_dataflow_hospitals    = "templates/adf_pipeline_transform_hospital.json"
 }
