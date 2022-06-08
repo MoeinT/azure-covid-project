@@ -65,13 +65,13 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-lookup-dim-date" {
   row_delimiter       = "\n"
 }
 
-# data "template_file" "pipelines-dataflow-hospitals-admissions" {
-#   template = file(local.arm_pipeline_dataflow_hospitals)
-# }
+data "template_file" "pipelines-dataflow-hospitals-admissions" {
+  template = file(local.arm_pipeline_dataflow_hospitals)
+}
 
-# resource "azurerm_data_factory_pipeline" "pl_dataflow_cases_deaths" {
-#   name            = "pl_process_cases_deaths_${local.my_name}"
-#   data_factory_id = azurerm_data_factory.covid-reporting-df.id
-#   concurrency     = 1
-#   activities_json = data.template_file.pipelines-dataflow-hospitals-admissions.template
-# }
+resource "azurerm_data_factory_pipeline" "pl_dataflow_hospital_admissions" {
+  name            = "pl_process_hospital_admissions_${local.my_name}"
+  data_factory_id = azurerm_data_factory.covid-reporting-df.id
+  concurrency     = 1
+  activities_json = data.template_file.pipelines-dataflow-hospitals-admissions.template
+}
