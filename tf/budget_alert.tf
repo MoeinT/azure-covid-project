@@ -9,7 +9,7 @@ resource "azurerm_monitor_action_group" "action-monitor" {
     use_common_alert_schema = true
   }
 
-    email_receiver {
+  email_receiver {
     name                    = "Sendtoadmin2"
     email_address           = "mohammadmoein.torabi@grenoble-inp.org"
     use_common_alert_schema = true
