@@ -40,6 +40,11 @@ resource "azurerm_consumption_budget_resource_group" "consumption-budget" {
       azurerm_monitor_action_group.action-monitor.id,
     ]
 
+    contact_emails = [
+      "moin.torabi@gmail.com",
+      "mohammadmoein.torabi@grenoble-inp.org",
+    ]
+
     contact_roles = [
       "Owner",
     ]
