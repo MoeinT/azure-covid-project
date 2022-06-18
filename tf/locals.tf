@@ -9,9 +9,11 @@ locals {
   cases_death                        = "cases_deaths/cases_deaths.csv"
   country_response                   = "country_response.csv"
   hospital_admissions                = "hospital_admissions/hospital_admissions.csv"
+  tests                              = "testing/testing.csv"
   testing                            = "testing.csv"
   lookup_file                        = "country_lookup/country_lookup.csv"
   lookup_file_dim_date               = "dim_date/dim_date.csv"
   arm_pipeline_dataflow_cases_deaths = "templates/adf_pipeline_transform_cases_deaths.json"
   arm_pipeline_dataflow_hospitals    = "templates/adf_pipeline_transform_hospital.json"
+  arm_pipeline_dataflow_tests        = "templates/arm_pipeline_transform_tests.json"
 }
