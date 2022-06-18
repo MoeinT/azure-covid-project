@@ -1,3 +1,6 @@
+data "azurerm_client_config" "current_subs_id" {
+}
+
 #Provision as Azure Data Factory with all its components using an ARM Template
 resource "azurerm_data_factory" "covid-reporting-df_template" {
   name                = "covrepdf${local.my_name}1"
@@ -23,7 +26,8 @@ resource "azurerm_resource_group_template_deployment" "adf-template-deployment" 
         },
         "adf_trigger_blobevent_moein_properties_typeProperties_scope": {
             "type": "string",
-            "defaultValue": "/subscriptions/1b7f4ea1-c952-4797-ab87-31c4b9078163/resourceGroups/covreprgmoein/providers/Microsoft.Storage/storageAccounts/covrepsamoein"
+            "defaultValue": "/subscriptions/${data.azurerm_client_config.current_subs_id.subscription_id}/resourceGroups/covreprgmoein/providers/Microsoft.Storage/storageAccounts/covrepsamoein"
+            "sensitive": true
         },
         "ls_adls_covrepmoein_properties_typeProperties_url": {
             "type": "string",
