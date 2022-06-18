@@ -4,11 +4,11 @@
     "parameters": {
         "workflows_send_custom_email_name": {
             "defaultValue": "send-custom-email",
-            "type": "string"
+            "type": "String"
         },
         "connections_gmail_externalid": {
             "defaultValue": "/subscriptions/1b7f4ea1-c952-4797-ab87-31c4b9078163/resourceGroups/covreprgmoein/providers/Microsoft.Web/connections/gmail",
-            "type": "string"
+            "type": "String"
         }
     },
     "variables": {},
