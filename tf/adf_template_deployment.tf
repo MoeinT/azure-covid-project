@@ -27,7 +27,6 @@ resource "azurerm_resource_group_template_deployment" "adf-template-deployment" 
         "adf_trigger_blobevent_moein_properties_typeProperties_scope": {
             "type": "string",
             "defaultValue": "/subscriptions/${data.azurerm_client_config.current_subs_id.subscription_id}/resourceGroups/covreprgmoein/providers/Microsoft.Storage/storageAccounts/covrepsamoein"
-            "sensitive": true
         },
         "ls_adls_covrepmoein_properties_typeProperties_url": {
             "type": "string",
