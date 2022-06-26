@@ -1,4 +1,4 @@
-#Create a managed identity to give access to different resources
+#Create a managed identity to give access to our data lake gen2
 resource "azurerm_user_assigned_identity" "covid-user-assigned-identity" {
   resource_group_name = azurerm_resource_group.covid-reporting-rg.name
   location            = azurerm_resource_group.covid-reporting-rg.location
