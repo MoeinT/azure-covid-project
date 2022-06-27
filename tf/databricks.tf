@@ -20,7 +20,7 @@ output "workspace_id" {
   value = azurerm_databricks_workspace.covid-rp-databricks.workspace_url
 }
 
-#Databricks cluster
+#Databricks cluster (permissions)
 resource "databricks_cluster" "Databricks_cluster" {
   cluster_name            = "covid-reporting-cluster-${local.my_name}"
   spark_version           = data.databricks_spark_version.latest_lts.id
