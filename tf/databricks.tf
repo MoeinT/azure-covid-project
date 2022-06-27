@@ -1,8 +1,8 @@
 resource "azurerm_databricks_workspace" "covid-rp-databricks" {
-  name                = "covid-reporting-databricks-${local.my_name}"
-  resource_group_name = azurerm_resource_group.covid-reporting-rg.name
-  location            = azurerm_resource_group.covid-reporting-rg.location
-  sku                 = "premium"
+  name                          = "covid-reporting-databricks-${local.my_name}"
+  resource_group_name           = azurerm_resource_group.covid-reporting-rg.name
+  location                      = azurerm_resource_group.covid-reporting-rg.location
+  sku                           = "premium"
   public_network_access_enabled = true
 }
 
