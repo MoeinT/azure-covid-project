@@ -15,7 +15,7 @@ data "databricks_spark_version" "latest_lts" {
   long_term_support = true
 }
 
-#Databricks cluster
+#Databricks cluster (permissions added)
 resource "databricks_cluster" "Databricks_cluster" {
   cluster_name            = "covid-reporting-cluster-${local.my_name}"
   spark_version           = data.databricks_spark_version.latest_lts.id
