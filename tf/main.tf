@@ -5,9 +5,9 @@ terraform {
       version = ">= 3.0.0"
     }
 
-    databricks = {
-      source = "databricks/databricks"
-    }
+    # databricks = {
+    #   source = "databricks/databricks"
+    # }
   }
 
   backend "azurerm" {
