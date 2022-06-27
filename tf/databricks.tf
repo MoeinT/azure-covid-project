@@ -31,3 +31,16 @@ resource "databricks_cluster" "Databricks_cluster" {
     max_workers = 3
   }
 }
+
+
+data "databricks_current_user" "me" {
+}
+
+output "debug_path" {
+  value = data.databricks_current_user.me.home
+}
+
+resource "databricks_notebook" "population_notebook" {
+  source = "../scripts/population_transformation.py"
+  path = "/Covid/transformations/population_transformation"
+}
