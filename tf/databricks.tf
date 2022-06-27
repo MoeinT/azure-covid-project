@@ -42,5 +42,5 @@ output "debug_path" {
 
 resource "databricks_notebook" "population_notebook" {
   source = "../scripts/population_transformation.py"
-  path = "/Covid/transformations/population_transformation"
+  path   = "/Covid/transformations/population_transformation"
 }
