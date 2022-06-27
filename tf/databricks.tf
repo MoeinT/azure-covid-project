@@ -11,14 +11,14 @@ provider "databricks" {
 }
 
 #Spark version
-# data "databricks_spark_version" "latest_lts" {
-#   long_term_support = true
-# }
+data "databricks_spark_version" "latest_lts" {
+  long_term_support = true
+}
 
-#Databricks cluster (access given)
+#Databricks cluster
 resource "databricks_cluster" "Databricks_cluster" {
   cluster_name            = "covid-reporting-cluster-${local.my_name}"
-  spark_version           = "10.4.x-scala2.12"
+  spark_version           = data.databricks_spark_version.latest_lts.id
   node_type_id            = "Standard_DS3_v2"
   autotermination_minutes = 20
   autoscale {
