@@ -1,0 +1,196 @@
+[
+    {
+        "name": "process Covidtests data",
+        "type": "DatabricksNotebook",
+        "dependsOn": [],
+        "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "notebookPath": "/Covid/transformations/covidtests_transformation"
+        },
+        "linkedServiceName": {
+            "referenceName": "ls_db_covid_moein",
+            "type": "LinkedServiceReference"
+        }
+    },
+    {
+        "name": "Copy covidtests snowflake",
+        "type": "Copy",
+        "dependsOn": [
+            {
+                "activity": "process Covidtests data",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "source": {
+                "type": "DelimitedTextSource",
+                "storeSettings": {
+                    "type": "AzureBlobStorageReadSettings",
+                    "recursive": true,
+                    "wildcardFileName": "*.csv",
+                    "enablePartitionDiscovery": false
+                },
+                "formatSettings": {
+                    "type": "DelimitedTextReadSettings",
+                    "compressionProperties": null
+                }
+            },
+            "sink": {
+                "type": "SnowflakeSink",
+                "preCopyScript": "truncate table azure_covid_project.public.covidtests",
+                "importSettings": {
+                    "type": "SnowflakeImportCopyCommand"
+                }
+            },
+            "enableStaging": true,
+            "stagingSettings": {
+                "linkedServiceName": {
+                    "referenceName": "ls_sa_processed_moein",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                    {
+                        "source": {
+                            "name": "country",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "country_code_2_digit",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country_code_2_digit"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "country_code_3_digit",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country_code_3_digit"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "population",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "population"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "year_week",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "year_week"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "reported_week_start_date",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "reported_week_start_date"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "reported_week_end_date",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "reported_week_end_date"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "new_cases",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "new_cases"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "tests_done",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "tests_done"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "testing_rate",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "testing_rate"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "positivity_rate",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "positivity_rate"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "testing_data_source",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "testing_data_source"
+                        }
+                    }
+                ]
+            }
+        },
+        "inputs": [
+            {
+                "referenceName": "ds_processed_covidtests_moein",
+                "type": "DatasetReference"
+            }
+        ],
+        "outputs": [
+            {
+                "referenceName": "ds_covidtests_snowflake_moein",
+                "type": "DatasetReference"
+            }
+        ]
+    }
+]

@@ -1,0 +1,307 @@
+[
+    {
+        "name": "process hospital data",
+        "type": "DatabricksNotebook",
+        "dependsOn": [],
+        "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "notebookPath": "/Covid/transformations/hospital_transformation"
+        },
+        "linkedServiceName": {
+            "referenceName": "ls_db_covid_moein",
+            "type": "LinkedServiceReference"
+        }
+    },
+    {
+        "name": "Copy hospitals admission daily snowflake",
+        "type": "Copy",
+        "dependsOn": [
+            {
+                "activity": "process hospital data",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "source": {
+                "type": "DelimitedTextSource",
+                "storeSettings": {
+                    "type": "AzureBlobStorageReadSettings",
+                    "recursive": true,
+                    "wildcardFileName": "*.csv",
+                    "enablePartitionDiscovery": false
+                },
+                "formatSettings": {
+                    "type": "DelimitedTextReadSettings",
+                    "compressionProperties" : null
+                }
+            },
+            "sink": {
+                "type": "SnowflakeSink",
+                "preCopyScript": "truncate table azure_covid_project.public.hospitaladmissionsdaily",
+                "importSettings": {
+                    "type": "SnowflakeImportCopyCommand"
+                }
+            },
+            "enableStaging": true,
+            "stagingSettings": {
+                "linkedServiceName": {
+                    "referenceName": "ls_sa_processed_moein",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                    {
+                        "source": {
+                            "name": "country",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "country_code_2_digit",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country_code_2_digit"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "country_code_3_digit",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country_code_3_digit"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "population",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "population"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "reported_date",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "reported_date"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "hospital_occupancy_count",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "hospital_occupancy_count"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "icu_occupancy_count",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "icu_occupancy_count"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "source",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "source"
+                        }
+                    }
+                ]
+            }
+        },
+        "inputs": [
+            {
+                "referenceName": "ds_processed_hospitals_daily_moein",
+                "type": "DatasetReference"
+            }
+        ],
+        "outputs": [
+            {
+                "referenceName": "ds_hospital_admissions_daily_snowflake_moein",
+                "type": "DatasetReference"
+            }
+        ]
+    },
+    {
+        "name": "Copy hospitals admission weekly snowflake",
+        "type": "Copy",
+        "dependsOn": [
+            {
+                "activity": "process hospital data",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "source": {
+                "type": "DelimitedTextSource",
+                "storeSettings": {
+                    "type": "AzureBlobStorageReadSettings",
+                    "recursive": true,
+                    "wildcardFileName": "*.csv",
+                    "enablePartitionDiscovery": false
+                },
+                "formatSettings": {
+                    "type": "DelimitedTextReadSettings",
+                    "compressionProperties" : null
+                }
+            },
+            "sink": {
+                "type": "SnowflakeSink",
+                "preCopyScript": "truncate table azure_covid_project.public.hospitaladmissionsweekly",
+                "importSettings": {
+                    "type": "SnowflakeImportCopyCommand"
+                }
+            },
+            "enableStaging": true,
+            "stagingSettings": {
+                "linkedServiceName": {
+                    "referenceName": "ls_sa_processed_moein",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                    {
+                        "source": {
+                            "name": "country",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "country_code_2_digit",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country_code_2_digit"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "country_code_3_digit",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country_code_3_digit"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "population",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "population"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "reported_year_week",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "reported_year_week"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "reported_week_start_date",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "reported_week_start_date"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "reported_week_end_date",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "reported_week_end_date"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "new_hospital_occupancy_count",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "new_hospital_occupancy_count"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "new_icu_occupancy_count",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "new_icu_occupancy_count"
+                        }
+                    }
+                ]
+            }
+        },
+        "inputs": [
+            {
+                "referenceName": "ds_processed_hospitals_weekly_moein",
+                "type": "DatasetReference"
+            }
+        ],
+        "outputs": [
+            {
+                "referenceName": "ds_hospital_admissions_weekly_snowflake_moein",
+                "type": "DatasetReference"
+            }
+        ]
+    }
+]

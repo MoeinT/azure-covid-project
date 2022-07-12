@@ -8,13 +8,44 @@ from pyspark.sql.types import *
 
 # COMMAND ----------
 
+schema_lookup = StructType(
+    [
+        StructField("country", StringType(), True),
+        StructField("country_code_2_digit", StringType(), True),
+        StructField("country_code_3_digit", StringType(), True),
+        StructField("continent", StringType(), True),
+        StructField("population", IntegerType(), True),
+        StructField("id", IntegerType(), True),
+    ]
+)
 
-def extract_population(path):
-    return spark.read.csv(path, sep="\t", header=True)
+schema_population = StructType(
+    [
+        StructField("indic_de,geo\\time", StringType(), True),
+        StructField("2008 ", FloatType(), True),
+        StructField("2009 ", FloatType(), True),
+        StructField("2010 ", FloatType(), True),
+        StructField("2011 ", FloatType(), True),
+        StructField("2012 ", FloatType(), True),
+        StructField("2013 ", FloatType(), True),
+        StructField("2014 ", FloatType(), True),
+        StructField("2015 ", FloatType(), True),
+        StructField("2016 ", FloatType(), True),
+        StructField("2017 ", FloatType(), True),
+        StructField("2018 ", FloatType(), True),
+        StructField("2019 ", FloatType(), True),
+    ]
+)
+
+# COMMAND ----------
 
 
-def extract_lookup(path):
-    return spark.read.csv(path, sep=",", header=True)
+def extract_population(path, schema=schema_population):
+    return spark.read.schema(schema).csv(path, sep="\t", header=True)
+
+
+def extract_lookup(path, schema=schema_lookup):
+    return spark.read.schema(schema).csv(path, sep=",", header=True)
 
 
 def population_processed(df, path_lookup):
@@ -32,8 +63,7 @@ def population_processed(df, path_lookup):
         .drop("split_col")
         .drop("indic_de,geo\\time")
         .select("age_group", "country_code_2_digit", "2019 ")
-        .withColumn("2019", col("2019 ").cast(FloatType()))
-        .drop("2019 ")
+        .withColumnRenamed("2019 ", "2019")
         .groupBy("country_code_2_digit")
         .pivot("age_group")
         .agg(round(sum("2019"), 2))
@@ -54,8 +84,6 @@ def population_processed(df, path_lookup):
     )
 
 
-
-
 # COMMAND ----------
 path_pop = "/mnt/covrepsadlmoein/rawmoein/population"
 path_lookup = "/mnt/covrepsadlmoein/lookups/country_lookup"
@@ -63,10 +91,7 @@ df_population_processed = population_processed(
     extract_population(path_pop), path_lookup
 )
 # COMMAND ----------
-
+path_tests_processed = "/mnt/covrepsamoein/processedmoein/population"
 df_population_processed.write.format("com.databricks.spark.csv").option(
     "header", "true"
-).option("delimiter", ",").mode("overwrite").save(
-    "/mnt/covrepsadlmoein/processedmoein/population"
-)
-
+).option("delimiter", ",").mode("overwrite").save(path_tests_processed)

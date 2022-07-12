@@ -5,6 +5,10 @@ terraform {
       version = ">= 3.0.0"
     }
 
+    databricks = {
+      source = "databricks/databricks"
+    }
+
   }
 
   backend "azurerm" {
@@ -14,6 +18,7 @@ terraform {
     key                  = "terraform.tfstate"
   }
 }
+
 
 data "azurerm_client_config" "current" {
 }
@@ -47,4 +52,9 @@ resource "azurerm_storage_container" "tfstate" {
 resource "azurerm_resource_group" "covid-reporting-rg" {
   name     = "covreprg${local.my_name}"
   location = "East Us"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+
 }

@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Execute population ingestion",
+        "type": "ExecutePipeline",
+        "dependsOn": [],
+        "userProperties": [],
+        "typeProperties": {
+            "pipeline": {
+                "referenceName": "pl_ingest_pop_moein",
+                "type": "PipelineReference"
+            },
+            "waitOnCompletion": true
+        }
+    },
+    {
+        "name": "Execute population transformation and copy",
+        "type": "ExecutePipeline",
+        "dependsOn": [
+            {
+                "activity": "Execute population ingestion",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "userProperties": [],
+        "typeProperties": {
+            "pipeline": {
+                "referenceName": "pl_adb_population_data_moein",
+                "type": "PipelineReference"
+            },
+            "waitOnCompletion": true
+        }
+    }
+]

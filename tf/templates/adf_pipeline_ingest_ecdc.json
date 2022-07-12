@@ -20,7 +20,8 @@
                     "enablePartitionDiscovery": false
                 },
                 "formatSettings": {
-                    "type": "JsonReadSettings"
+                    "type": "JsonReadSettings",
+                    "compressionProperties" : null
                 }
             },
             "dataset": {
@@ -68,7 +69,8 @@
                                 "requestMethod": "GET"
                             },
                             "formatSettings": {
-                                "type": "DelimitedTextReadSettings"
+                                "type": "DelimitedTextReadSettings",
+                                "compressionProperties" : null
                             }
                         },
                         "sink": {
