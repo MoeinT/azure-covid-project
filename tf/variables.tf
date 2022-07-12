@@ -9,5 +9,5 @@ variable "snowflake_username" {
 }
 
 variable "Snowflake_account_name" {
-  type    = string
+  type = string
 }
