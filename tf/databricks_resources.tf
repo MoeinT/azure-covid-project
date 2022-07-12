@@ -32,7 +32,7 @@ resource "azurerm_databricks_workspace" "covid-rp-databricks" {
 #We need to reference an existing workspace in our Databricks provider
 provider "databricks" {
   host  = azurerm_databricks_workspace.covid-rp-databricks.workspace_url
-  token = "dapif7ccc464b6dd2577615f537d29bcf827-3"
+  token = var.db_access_token
 }
 
 #Spark version
