@@ -1,0 +1,75 @@
+[
+    {
+        "name": "Execute ecdc ingestion",
+        "type": "ExecutePipeline",
+        "dependsOn": [],
+        "userProperties": [],
+        "typeProperties": {
+            "pipeline": {
+                "referenceName": "pl_ingest_ecdc_moein",
+                "type": "PipelineReference"
+            },
+            "waitOnCompletion": true
+        }
+    },
+    {
+        "name": "Execute hospital transformation",
+        "type": "ExecutePipeline",
+        "dependsOn": [
+            {
+                "activity": "Execute ecdc ingestion",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "userProperties": [],
+        "typeProperties": {
+            "pipeline": {
+                "referenceName": "pl_adb_hospitals_data_moein",
+                "type": "PipelineReference"
+            },
+            "waitOnCompletion": true
+        }
+    },
+    {
+        "name": "Execute covidtests transformations",
+        "type": "ExecutePipeline",
+        "dependsOn": [
+            {
+                "activity": "Execute ecdc ingestion",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "userProperties": [],
+        "typeProperties": {
+            "pipeline": {
+                "referenceName": "pl_adb_covidtests_data_moein",
+                "type": "PipelineReference"
+            },
+            "waitOnCompletion": true
+        }
+    },
+    {
+        "name": "Execute casesdeaths transformations",
+        "type": "ExecutePipeline",
+        "dependsOn": [
+            {
+                "activity": "Execute ecdc ingestion",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "userProperties": [],
+        "typeProperties": {
+            "pipeline": {
+                "referenceName": "pl_adb_casesdeaths_data_moein",
+                "type": "PipelineReference"
+            },
+            "waitOnCompletion": true
+        }
+    }
+]

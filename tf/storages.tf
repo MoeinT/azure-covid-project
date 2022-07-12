@@ -25,8 +25,9 @@ resource "azurerm_storage_account" "covid-reporting-sa-dl" {
   is_hns_enabled           = "true"
 }
 
-#The container holding the population data (target .tsv )
-resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-population" {
+#file-system-population
+#The container holding the raw data
+resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-raw" {
   name               = "raw${local.my_name}"
   storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
 }
@@ -41,4 +42,17 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-processed" {
 resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-processed-python" {
   name               = "processed${local.my_name}python"
   storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
+}
+
+#Create a container holding the lookup file for the join transformations: 
+resource "azurerm_storage_data_lake_gen2_filesystem" "file-system-lookup" {
+  name               = "lookups"
+  storage_account_id = azurerm_storage_account.covid-reporting-sa-dl.id
+}
+
+#Create a container within the storage account hoding the processed data 
+resource "azurerm_storage_container" "processed-data" {
+  name                  = "processed${local.my_name}"
+  storage_account_name  = azurerm_storage_account.covid-reporting-sa.name
+  container_access_type = "private"
 }

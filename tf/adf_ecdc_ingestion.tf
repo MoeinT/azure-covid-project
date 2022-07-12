@@ -1,31 +1,9 @@
-#Create a custom linked service to the HTTP URL
-resource "azurerm_data_factory_linked_custom_service" "adf-link-source-covid" {
-  name            = "ls_http_ecdc_${local.my_name}"
-  data_factory_id = azurerm_data_factory.covid-reporting-df.id
-  type            = "HttpServer"
-
-  parameters = {
-    sourceBaseURL : ""
-  }
-
-  type_properties_json = <<JSON
-{
-    "url": "@linkedService().sourceBaseURL",
-    "enableServerCertificateValidation": true,
-    "authenticationType": "Anonymous"
-}
-JSON
-
-  annotations = []
-
-}
-
 #Create a custom dataset for the source
 resource "azurerm_data_factory_custom_dataset" "ds-source-ecdc" {
   name            = "ds_ecdc_raw_csv_http_${local.my_name}"
   data_factory_id = azurerm_data_factory.covid-reporting-df.id
   type            = "DelimitedText"
-
+  folder          = "raw"
   parameters = {
     relativeURL = ""
     baseURL     = ""
@@ -63,14 +41,14 @@ resource "azurerm_data_factory_dataset_delimited_text" "ds-target-ecdc" {
   name                = "ds_ecdc_raw_csv_http_dl${local.my_name}"
   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
   linked_service_name = azurerm_data_factory_linked_service_data_lake_storage_gen2.adf-link-target.name
-
+  folder              = "raw"
   #Parameterize the filename
   parameters = {
     fileName = ""
   }
 
   azure_blob_fs_location {
-    file_system = azurerm_storage_data_lake_gen2_filesystem.file-system-population.name
+    file_system = azurerm_storage_data_lake_gen2_filesystem.file-system-raw.name
     path        = "ecdc"
     filename    = "@dataset().fileName"
   }
@@ -93,7 +71,7 @@ resource "azurerm_data_factory_dataset_json" "ds-config" {
   name                = "ds_ecdc_filelist_${local.my_name}"
   data_factory_id     = azurerm_data_factory.covid-reporting-df.id
   linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.adf-link-source.name
-
+  folder              = "raw"
   azure_blob_storage_location {
     container = azurerm_storage_container.config.name
     path      = "ecdc"
@@ -105,28 +83,15 @@ resource "azurerm_data_factory_dataset_json" "ds-config" {
 }
 
 #Create a pipeline to ingest cases and death data
-
 data "template_file" "pipelines-ecdc" {
   template = file(local.arm_pipeline_ecdc_template)
 }
-
-resource "azurerm_data_factory_pipeline" "pl_ingest_cases_death" {
+#pl_ingest_cases_death
+resource "azurerm_data_factory_pipeline" "pl_ingest_ecdc" {
   name            = "pl_ingest_ecdc_${local.my_name}"
   data_factory_id = azurerm_data_factory.covid-reporting-df.id
   concurrency     = 1
+  folder          = "Ingestion"
   activities_json = data.template_file.pipelines-ecdc.template
 }
 
-#Create a scheduling trigger for the above pipeline and pass in the parameters at runtime
-resource "azurerm_data_factory_trigger_schedule" "tr-ingest-hospital" {
-  name            = "tr_ingest_hospital_admissions_${local.my_name}"
-  data_factory_id = azurerm_data_factory.covid-reporting-df.id
-  pipeline_name   = azurerm_data_factory_pipeline.pl_ingest_cases_death.name
-
-  start_time = "2022-05-25T15:00:00.00Z"
-
-  #The ecdc data gets updated every week
-  interval  = 1
-  frequency = "Week"
-  activated = "true"
-}

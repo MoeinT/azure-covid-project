@@ -1,0 +1,178 @@
+[
+    {
+        "name": "Execute Population Transformation",
+        "type": "DatabricksNotebook",
+        "dependsOn": [],
+        "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "notebookPath": "/Covid/transformations/population_transformation"
+        },
+        "linkedServiceName": {
+            "referenceName": "ls_db_covid_moein",
+            "type": "LinkedServiceReference"
+        }
+    },
+    {
+        "name": "Copy population snowflake",
+        "type": "Copy",
+        "dependsOn": [
+            {
+                "activity": "Execute Population Transformation",
+                "dependencyConditions": [
+                    "Succeeded"
+                ]
+            }
+        ],
+        "policy": {
+            "timeout": "7.00:00:00",
+            "retry": 0,
+            "retryIntervalInSeconds": 30,
+            "secureOutput": false,
+            "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+            "source": {
+                "type": "DelimitedTextSource",
+                "storeSettings": {
+                    "type": "AzureBlobStorageReadSettings",
+                    "recursive": true,
+                    "wildcardFileName": "*.csv",
+                    "enablePartitionDiscovery": false
+                },
+                "formatSettings": {
+                    "type": "DelimitedTextReadSettings",
+                    "compressionProperties": null
+                }
+            },
+            "sink": {
+                "type": "SnowflakeSink",
+                "preCopyScript": "truncate table azure_covid_project.public.populations",
+                "importSettings": {
+                    "type": "SnowflakeImportCopyCommand"
+                }
+            },
+            "enableStaging": true,
+            "stagingSettings": {
+                "linkedServiceName": {
+                    "referenceName": "ls_sa_processed_moein",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                    {
+                        "source": {
+                            "name": "country",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "country_code_2_digit",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country_code_2_digit"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "country_code_3_digit",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "country_code_3_digit"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "population",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "population"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "age_group_0_14",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "age_group_0_14"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "age_group_15_24",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "age_group_15_24"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "age_group_25_49",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "age_group_25_49"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "age_group_50_64",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "age_group_50_64"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "age_group_65_79",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "age_group_65_79"
+                        }
+                    },
+                    {
+                        "source": {
+                            "name": "age_group_80_MAX",
+                            "type": "String"
+                        },
+                        "sink": {
+                            "name": "age_group_80_MAX"
+                        }
+                    }
+                ]
+            }
+        },
+        "inputs": [
+            {
+                "referenceName": "ds_processed_populations_moein",
+                "type": "DatasetReference"
+            }
+        ],
+        "outputs": [
+            {
+                "referenceName": "ds_population_snowflake_moein",
+                "type": "DatasetReference"
+            }
+        ]
+    }
+]
