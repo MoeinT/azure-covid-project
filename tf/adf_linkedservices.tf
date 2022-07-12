@@ -56,7 +56,7 @@ resource "azurerm_data_factory_linked_service_azure_databricks" "ls-db-adf" {
   description         = "ADB Linked Service via MSI"
   adb_domain          = "https://${azurerm_databricks_workspace.covid-rp-databricks.workspace_url}"
   existing_cluster_id = databricks_cluster.Databricks_cluster.id
-  access_token        = "dapif7ccc464b6dd2577615f537d29bcf827-3"#var.db_access_token
+  access_token        = "dapif7ccc464b6dd2577615f537d29bcf827-3" #var.db_access_token
 }
 
 #Create a dataset linking Azure data factory to snowflake 
