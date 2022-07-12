@@ -9,6 +9,5 @@ variable "snowflake_username" {
 }
 
 variable "Snowflake_account_name" {
-  type    = string
-  default = "fe90524.west-europe.azure"
+  type = string
 }
