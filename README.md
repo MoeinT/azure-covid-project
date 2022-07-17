@@ -17,7 +17,7 @@
      <li>
         <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
          <ul>
-          <li><a href="#Validating Terraform Using Github Action">Validating Terraform Using Github Action</a></li>
+          <li><a href="#Validating-Terraform-Using-Github-Action">Validating Terraform Using Github Action</a></li>
           <li><a href="#deployment">Deployment</a></li>
         </ul>
     </li>
