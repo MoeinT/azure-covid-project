@@ -26,6 +26,7 @@ locals {
   covidtests_transformation_path     = "../scripts/covidtests_transformations.py"
   hospital_transformation_path       = "../scripts/hospital_transformations.py"
   casesdeaths_transformation_path    = "../scripts/casesdeaths_transformations.py"
+
   access_policy = [
     {
       tenant_id          = data.azurerm_client_config.current.tenant_id

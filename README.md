@@ -4,8 +4,16 @@
     <ul>
      <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
      <li><a href="#scope">Scope</a></li>
-     <li><a href="#Data">Data</a></li>
-     <li><a href="#Pipeline-and-activities-in-Azure-Data-Factory">Pipeline and activities in Azure Data Factory</a></li>
+     <li>
+        <a href="#Data Ingestion">Data Ingestion</a>
+         <ul>
+          <li><a href="#Population dataset">Population dataset</a></li>
+          <li><a href="#Covid19 dataset">Covid19 dataset</a></li>
+         </ul>
+     </li>
+     <li><a href="#Data Transformation">Data Transformation</a></li>
+     <li><a href="#Loading in Snowflake">Data Transformation</a></li>
+     <li><a href="#Triggers">Data Transformation</a></li>
      <li>
         <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
          <ul>
@@ -26,17 +34,19 @@
 
 ## Scope
 
-The goal of my project is to create a data platform in Azure for reporting and predictions of Covid19 outbreaks. Here's the scope of the project:
+The goal of this project is to create a data platform in Azure and Snowflake for reporting and predictions of Covid19 outbreaks. Here's the scope of the project:
 
-- We will integrate and orchestrate our data pipelines using Azure Data Factory
+- We will create all the required insfrastructure in Azure using Terraform. Terraform is a tool used to programmatically provision and manage infrastructure in the cloud as well as on-prem
 
-- We will create a dashboard using Azure Power BI to visualize the trend of Covid and the effectiveness of the Corona Virus tests being carried out
+- We use Github CI/CD actions to validate our Terraform code and preview the changes to our infrastructure on a pull-request and deploy our infrastructure upon merging to main
 
-- We will also monitor our data pipeline and create alerts when there’s failure in the pipeline
+- We will use the Databricks platform within Azure to process our data; we use Terraform to create and maintain our workspaces and clusters as well as deploy our Python notebooks
 
-The first step in the project is to provision all the required resources on Azure. See below for a more detailed plan.
+- We will create pipelines in Azure data factory (adf) to ingest our data from the ECDC (European Centre for Disease Prevention and Control) website, process our Databricks notebooks, and finally copy the transformed data in a database in Snowflake. We will integrate and orchestrate all our data pipelines using Azure Data Factory
 
-## Data
+- We will monitor our data pipelines and create alerts when there is a failure in any of the pipelines using Azure monitor
+
+## Data Ingestion
 
 ### Population dataset
 
@@ -44,16 +54,24 @@ Downloaded the data related to the European population from the Eurostat website
 
 ### Covid19 dataset
 
-Ingested the following data from the [European Center for Disease Prevention and Control (ECDC)](https://www.ecdc.europa.eu/en/covid-19/data) into Azure Data Factory through an HTTP connector: 
+Ingested the following data from the [ECDC](https://www.ecdc.europa.eu/en/covid-19/data) website into Azure Data Factory through an HTTP connector and sent the results into an Azure Data Lake Storage Gen2.  
 
 - New cases and deaths by country 
 - Hospital admissions and ICU cases
 - Testing Numbers
 - Country responses to Covid19
 
-## Pipeline and activities in Azure Data Factory
+## Data Transformation
 
-- **Data Ingestion —** Created a pipeline in Azure Data Factory that would automatically ingest data from the ECDC website on a schedule basis. Added a trigger that would run the pipeline once every week when the data gets updated on the website. All the required resources have been created, mananged and maintained using Infrastructure as Code (IaC) with [Terraform](https://www.terraform.io/). See the sections below for more details on IaC.
+- Used the Databricks platform within Azure and used PySpark for all our data transformations. All our Databricks resources have been managed using IaC with Terraform. See our PySpark codes for all the above data [here in this repository](https://github.com/MoeinT/azure-covid-project/tree/main/scripts).
+
+## Loading in Snowflake
+
+- Snowflake is a cloud-based datawarehouse. Snowflake has been gaining popularity due to some of its advanced functionalities, such as its ability to access data in structured and unstructured formats. For this reason, we've used Snowflake as our datawarehouse solution in this project. In this project, we've created a [LinkedService](https://docs.microsoft.com/en-us/azure/data-factory/connector-snowflake?tabs=data-factory) in adf pointing towards a specific database in Snowflake and used the Copy Activity in adf to send our data from an azure blob storage into snowflake. 
+
+## Triggers 
+
+- Created triggers that would run the above pipelines on a weekly basis, since the ECDC data gets updated every week. We also used the [Execute Pipeline Activity in adf](https://docs.microsoft.com/en-us/azure/data-factory/control-flow-execute-pipeline-activity) to create dependencies between our pipelines, i.e., first the ingestion pipeline should run before the transformation and loading pipelines get triggered. 
 
 ## Infrastructure as code (IaC)
 
