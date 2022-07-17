@@ -2,8 +2,8 @@
   <summary>Table of Contents</summary>
   <ol>
     <ul>
-     <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
-     <li><a href="#scope">Scope</a></li>
+     <li><a href="#Azure Covid Reporting">Azure Covid Reporting</a></li>
+     <li><a href="#Scope">Scope</a></li>
      <li>
         <a href="#Data-Ingestion">Data Ingestion</a>
          <ul>
@@ -12,12 +12,12 @@
          </ul>
      </li>
      <li><a href="#Data-Transformation">Data Transformation</a></li>
-     <li><a href="#Loading-in-Snowflake">Data Transformation</a></li>
-     <li><a href="#Triggers">Data Transformation</a></li>
+     <li><a href="#Loading-in-Snowflake">Loading in Snowflake</a></li>
+     <li><a href="#Triggers">Triggers</a></li>
      <li>
-        <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
+        <a href="#Infrastructure-as-code-(IaC)">Infrastructure as code (IaC)</a>
          <ul>
-          <li><a href="#validating-IaC-with-terraform-using-github-action">Validating IaC with Terraform using Github action</a></li>
+          <li><a href="#Validating-Terraform-Using-Github-Action">Validating Terraform Using Github Action</a></li>
           <li><a href="#deployment">Deployment</a></li>
         </ul>
     </li>
@@ -56,10 +56,10 @@ Downloaded the data related to the European population from the Eurostat website
 
 Ingested the following data from the [ECDC](https://www.ecdc.europa.eu/en/covid-19/data) website into Azure Data Factory through an HTTP connector and sent the results into an Azure Data Lake Storage Gen2.  
 
-- New cases and deaths by country 
-- Hospital admissions and ICU cases
-- Testing Numbers
-- Country responses to Covid19
+- New Cases and Deaths by Country 
+- Hospital Admissions and ICU Cases
+- Covid Testing 
+- Country Responses to Covid19
 
 ## Data Transformation
 
@@ -67,7 +67,7 @@ Ingested the following data from the [ECDC](https://www.ecdc.europa.eu/en/covid-
 
 ## Loading in Snowflake
 
-- Snowflake is a cloud-based datawarehouse. Snowflake has been gaining popularity due to some of its advanced functionalities, such as its ability to access data in structured and unstructured formats. For this reason, we've used Snowflake as our datawarehouse solution in this project. In this project, we've created a [LinkedService](https://docs.microsoft.com/en-us/azure/data-factory/connector-snowflake?tabs=data-factory) in adf pointing towards a specific database in Snowflake and used the Copy Activity in adf to send our data from an azure blob storage into snowflake. 
+- Snowflake is a cloud-based datawarehouse. Snowflake has been gaining popularity due to some of its advanced functionalities, such as its ability to access data in structured and unstructured formats. For this reason, we've used Snowflake as our datawarehouse solution in this project. In this project, we've created a [LinkedService](https://docs.microsoft.com/en-us/azure/data-factory/connector-snowflake?tabs=data-factory) in adf pointing towards a specific database in Snowflake and used the [Copy Activity](https://docs.microsoft.com/en-us/azure/data-factory/copy-activity-overview) in adf to send our data from an azure blob storage into snowflake.
 
 ## Triggers 
 
@@ -77,7 +77,7 @@ Ingested the following data from the [ECDC](https://www.ecdc.europa.eu/en/covid-
 
 Infrastructure as Code (IaC) is the management of infrastructure (networks, virtual machines, storages etc.) in a descriptive model using code. Using IaC we can avoid manual configuration of environments and enforce consistency by representing the desired state of their environments via code. [Terraform](https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code) is HashiCorp's infrastructure as code tool. It lets you define resources and infrastructure in human-readable, declarative configuration files, and manages your infrastructure's lifecycle.
 
-### Validating IaC with Terraform using Github actions
+### Validating Terraform Using Github Action
 When we use IaC with Terraform (or any other language), the goal is to reliably deploy and manage infrastructure using software development practices. The goal of Terraform validation is to catch and resolve issues as early as possible in the development process before they find their way into production. Here in this repository, I've created all the resources for my project using Terraform, and added the following tests: 
 
 - **Syntax**
