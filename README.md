@@ -2,8 +2,8 @@
   <summary>Table of Contents</summary>
   <ol>
     <ul>
-     <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
-     <li><a href="#scope">Scope</a></li>
+     <li><a href="#Azure Covid Reporting">Azure Covid Reporting</a></li>
+     <li><a href="#Scope">Scope</a></li>
      <li>
         <a href="#Data-Ingestion">Data Ingestion</a>
          <ul>
@@ -12,10 +12,10 @@
          </ul>
      </li>
      <li><a href="#Data-Transformation">Data Transformation</a></li>
-     <li><a href="#Loading-in-Snowflake">Data Transformation</a></li>
-     <li><a href="#Triggers">Data Transformation</a></li>
+     <li><a href="#Loading-in-Snowflake">Loading in Snowflake</a></li>
+     <li><a href="#Triggers">Triggers</a></li>
      <li>
-        <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
+        <a href="#Infrastructure-as-code-(IaC)">Infrastructure as code (IaC)</a>
          <ul>
           <li><a href="#Validating-Terraform-Using-Github-Action">Validating Terraform Using Github Action</a></li>
           <li><a href="#deployment">Deployment</a></li>
