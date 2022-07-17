@@ -17,7 +17,7 @@
      <li>
         <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
          <ul>
-          <li><a href="#validating-IaC-with-terraform-using-github-action">Validating IaC with Terraform using Github action</a></li>
+          <li><a href="#validating terraform using github action">Validating IaC with Terraform using Github action</a></li>
           <li><a href="#deployment">Deployment</a></li>
         </ul>
     </li>
@@ -56,10 +56,10 @@ Downloaded the data related to the European population from the Eurostat website
 
 Ingested the following data from the [ECDC](https://www.ecdc.europa.eu/en/covid-19/data) website into Azure Data Factory through an HTTP connector and sent the results into an Azure Data Lake Storage Gen2.  
 
-- New cases and deaths by country 
-- Hospital admissions and ICU cases
-- Testing Numbers
-- Country responses to Covid19
+- New Cases and Deaths by Country 
+- Hospital Admissions and ICU Cases
+- Covid Testing 
+- Country Responses to Covid19
 
 ## Data Transformation
 
@@ -67,7 +67,7 @@ Ingested the following data from the [ECDC](https://www.ecdc.europa.eu/en/covid-
 
 ## Loading in Snowflake
 
-- Snowflake is a cloud-based datawarehouse. Snowflake has been gaining popularity due to some of its advanced functionalities, such as its ability to access data in structured and unstructured formats. For this reason, we've used Snowflake as our datawarehouse solution in this project. In this project, we've created a [LinkedService](https://docs.microsoft.com/en-us/azure/data-factory/connector-snowflake?tabs=data-factory) in adf pointing towards a specific database in Snowflake and used the Copy Activity in adf to send our data from an azure blob storage into snowflake. 
+- Snowflake is a cloud-based datawarehouse. Snowflake has been gaining popularity due to some of its advanced functionalities, such as its ability to access data in structured and unstructured formats. For this reason, we've used Snowflake as our datawarehouse solution in this project. In this project, we've created a [LinkedService](https://docs.microsoft.com/en-us/azure/data-factory/connector-snowflake?tabs=data-factory) in adf pointing towards a specific database in Snowflake and used the [Copy Activity](https://docs.microsoft.com/en-us/azure/data-factory/copy-activity-overview) in adf to send our data from an azure blob storage into snowflake.
 
 ## Triggers 
 
