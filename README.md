@@ -2,7 +2,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <ul>
-     <li><a href="#Azure Covid Reporting">Azure Covid Reporting</a></li>
+     <li><a href="#Azure-Covid-Reporting">Azure Covid Reporting</a></li>
      <li><a href="#Scope">Scope</a></li>
      <li>
         <a href="#Data-Ingestion">Data Ingestion</a>
