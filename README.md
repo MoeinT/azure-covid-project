@@ -15,7 +15,7 @@
      <li><a href="#Loading-in-Snowflake">Loading in Snowflake</a></li>
      <li><a href="#Triggers">Triggers</a></li>
      <li>
-        <a href="#Infrastructure-as-code-(IaC)">Infrastructure as code (IaC)</a>
+        <a href="#Infrastructure-as-code">Infrastructure as code</a>
          <ul>
           <li><a href="#Validating-Terraform-Using-Github-Action">Validating Terraform Using Github Action</a></li>
           <li><a href="#deployment">Deployment</a></li>
