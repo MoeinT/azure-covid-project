@@ -17,7 +17,7 @@
      <li>
         <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
          <ul>
-          <li><a href="#validating terraform using github action">Validating IaC with Terraform using Github action</a></li>
+          <li><a href="#Validating Terraform Using Github Action">Validating Terraform Using Github Action</a></li>
           <li><a href="#deployment">Deployment</a></li>
         </ul>
     </li>
@@ -77,7 +77,7 @@ Ingested the following data from the [ECDC](https://www.ecdc.europa.eu/en/covid-
 
 Infrastructure as Code (IaC) is the management of infrastructure (networks, virtual machines, storages etc.) in a descriptive model using code. Using IaC we can avoid manual configuration of environments and enforce consistency by representing the desired state of their environments via code. [Terraform](https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code) is HashiCorp's infrastructure as code tool. It lets you define resources and infrastructure in human-readable, declarative configuration files, and manages your infrastructure's lifecycle.
 
-### Validating IaC with Terraform using Github actions
+### Validating Terraform Using Github Action
 When we use IaC with Terraform (or any other language), the goal is to reliably deploy and manage infrastructure using software development practices. The goal of Terraform validation is to catch and resolve issues as early as possible in the development process before they find their way into production. Here in this repository, I've created all the resources for my project using Terraform, and added the following tests: 
 
 - **Syntax**
