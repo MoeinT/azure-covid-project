@@ -15,7 +15,7 @@
      <li><a href="#Loading-in-Snowflake">Loading in Snowflake</a></li>
      <li><a href="#Triggers">Triggers</a></li>
      <li>
-        <a href="#Infrastructure-as-code">Infrastructure as code</a>
+        <a href="#Infrastructure as Code">Infrastructure as Code</a>
          <ul>
           <li><a href="#Validating-Terraform-Using-Github-Action">Validating Terraform Using Github Action</a></li>
           <li><a href="#deployment">Deployment</a></li>
@@ -73,7 +73,7 @@ Ingested the following data from the [ECDC](https://www.ecdc.europa.eu/en/covid-
 
 - Created triggers that would run the above pipelines on a weekly basis, since the ECDC data gets updated every week. We also used the [Execute Pipeline Activity in adf](https://docs.microsoft.com/en-us/azure/data-factory/control-flow-execute-pipeline-activity) to create dependencies between our pipelines, i.e., first the ingestion pipeline should run before the transformation and loading pipelines get triggered. 
 
-## Infrastructure as code (IaC)
+## Infrastructure as Code
 
 Infrastructure as Code (IaC) is the management of infrastructure (networks, virtual machines, storages etc.) in a descriptive model using code. Using IaC we can avoid manual configuration of environments and enforce consistency by representing the desired state of their environments via code. [Terraform](https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code) is HashiCorp's infrastructure as code tool. It lets you define resources and infrastructure in human-readable, declarative configuration files, and manages your infrastructure's lifecycle.
 
