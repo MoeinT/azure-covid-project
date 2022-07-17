@@ -5,14 +5,14 @@
      <li><a href="#azure-covid-reporting">Azure Covid Reporting</a></li>
      <li><a href="#scope">Scope</a></li>
      <li>
-        <a href="#Data Ingestion">Data Ingestion</a>
+        <a href="#Data-Ingestion">Data Ingestion</a>
          <ul>
-          <li><a href="#Population dataset">Population dataset</a></li>
-          <li><a href="#Covid19 dataset">Covid19 dataset</a></li>
+          <li><a href="#Population-dataset">Population dataset</a></li>
+          <li><a href="#Covid19-dataset">Covid19 dataset</a></li>
          </ul>
      </li>
-     <li><a href="#Data Transformation">Data Transformation</a></li>
-     <li><a href="#Loading in Snowflake">Data Transformation</a></li>
+     <li><a href="#Data-Transformation">Data Transformation</a></li>
+     <li><a href="#Loading-in-Snowflake">Data Transformation</a></li>
      <li><a href="#Triggers">Data Transformation</a></li>
      <li>
         <a href="#infrastructure-as-code (IaC)">Infrastructure as code (IaC)</a>
